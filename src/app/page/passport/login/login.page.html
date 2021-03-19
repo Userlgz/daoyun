@@ -1,0 +1,66 @@
+<ion-header>
+  <!-- <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar> -->
+</ion-header>
+
+<ion-content class="ion-no-padding" style="top: 10%">
+  <div style="text-align: center;">
+    <img src="assets/icon/favicon.png" alt="" style="width: 20%; height: 20%">
+  </div>
+
+  <div class="ion-padding-horizontal">
+    <form #loginForm="ngForm">
+      <ion-list class="ion-no-margin ion-no-padding">
+        <ion-item lines="none"></ion-item>
+        <ion-item>
+          <ion-label position="fixed">账号</ion-label>
+          <ion-input name="username" type="text" placeholder="手机号或者电子邮箱" [(ngModel)]="username"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="fixed">密码</ion-label>
+          <ion-input name="password" type="password" placeholder="登录密码" [(ngModel)]="password"></ion-input>
+        </ion-item>
+        <ion-item lines="none"></ion-item>
+      </ion-list>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-button expand="full" color="primary" (click)="onLogin(loginForm)">
+              登录</ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button expand="full" fill="outline" color="primary" (click)="onSignup()">注册新账号</ion-button>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-button fill="clear" size="small" (click)="onForgotPassword()">忘记密码？</ion-button>
+          </ion-col>
+        </ion-row>
+        <!-- <ion-row class="ion-text-center">
+          <ion-col>or</ion-col>
+        </ion-row> -->
+        <ion-row style="place-content: center;" offset="3">
+          <ion-col>
+            <ion-button (click)="onClick()" fill="clear" expand="full" size="small">
+              <ion-icon name="logo-wechat" slot="start"></ion-icon>
+              <ion-text color="primary">
+                <p>微信登录</p>
+              </ion-text>
+            </ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button fill="clear" expand="full" size="small">
+              <ion-icon src="assets/icon/qq.svg" slot="start"></ion-icon>
+              <ion-text color="primary">
+                <p>QQ登录</p>
+              </ion-text>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+  </div>
+  <app-daoyun-copyright></app-daoyun-copyright>
+</ion-content>
