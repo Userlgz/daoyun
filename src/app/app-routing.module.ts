@@ -1,19 +1,25 @@
+import { StartAppGuard } from './core/start-app.guard';
 import { NgModule } from '@angular/core';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { PreloadAllModules, RouterModule, Routes, CanActivate } from '@angular/router';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'guide',
     pathMatch: 'full'
   },
   {
-    path: 'login',
-    loadChildren: () => import('./page/passport/login/login.module').then(m => m.LoginPageModule)
+    path: 'passport',
+    loadChildren: () => import('./page/passport/passport.module').then( m => m.PassportModule)
   },
   {
     path: 'tabs',
     loadChildren: () => import('./page/tabs/tabs.module').then(m => m.TabsPageModule)
+  },
+  {
+    path: 'guide',
+    loadChildren: () => import('./page/guide/guide.module').then( m => m.GuidePageModule),
+    canActivate: [StartAppGuard]
   }
 ];
 @NgModule({

@@ -1,3 +1,5 @@
+import { LocalStorageService } from './service/local-storage.service';
+import { NetworkService } from './service/network.service';
 import { CopyrightComponent } from './compinents/copyright/copyright.component';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
@@ -11,13 +13,18 @@ import { CommonModule } from '@angular/common';
     imports: [
         CommonModule,
         FormsModule,
-        IonicModule
+        IonicModule,
+
     ],
     exports: [
         CommonModule,
         FormsModule,
         IonicModule,
-        CopyrightComponent
+        CopyrightComponent,
+    ],
+    providers: [
+        NetworkService,
+        LocalStorageService
     ]
 })
 export class SharedModule { }

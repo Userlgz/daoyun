@@ -1,0 +1,21 @@
+ion-toolbar {
+    --background: transparent;
+    --border-color: transparent;
+}
+
+.fixed-bottom {
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    right: 0;
+    z-index: 10;
+}
+
+// .img_slide{
+//     position: relative;
+//     // top: 0px;
+// }
+
+// #guide_ionslides {
+//     height: 100%;
+// }

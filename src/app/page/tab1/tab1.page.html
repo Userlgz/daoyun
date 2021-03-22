@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+<!-- <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
       Tab 1
@@ -14,4 +14,116 @@
   </ion-header>
 
   <app-explore-container name="Tab 1 page"></app-explore-container>
+</ion-content> -->
+<ion-header>
+  <ion-toolbar mode='ios' color="primary">
+    <ion-segment value="all" slot="start">
+      <ion-segment-button value="all">
+        我创建的
+      </ion-segment-button>
+      <ion-segment-button value="favorites">我加入的</ion-segment-button>
+    </ion-segment>
+    <ion-buttons slot="end" size='large'>
+      <ion-button (click)="showMenu()">
+        <ion-icon slot="icon-only" name="add-outline" size='large'></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="refreshData($event)" mode='ios'>
+    <ion-refresher-content pullingicon="arrow-down" pullingText="下拉刷新" refreshingSpinner="circles"
+      refreshingText="加载中...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <ion-toolbar color="primary" style="padding-top: 15px; margin-bottom: 10px;">
+    <ion-searchbar></ion-searchbar>
+    <ion-buttons slot="end">
+      <ion-button fill="outline" size="small">调序</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-list>
+    <ion-item>
+      <ion-thumbnail slot="start">
+        <img src="assets\icon\favicon.png">
+      </ion-thumbnail>
+      <ion-grid>
+        <ion-row>
+          <ion-label>
+            <h2>工程训练</h2>
+            <p>池老师&nbsp;&nbsp;&nbsp;2020-2021-1</p>
+          </ion-label>
+        </ion-row>
+        <ion-row style="height: 20px; align-content: center;">
+          <ion-col>
+            <ion-button fill='clear' size="small" class='listbutton'>
+              <ion-text>签到</ion-text>
+            </ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button fill='clear' size="small" class='listbutton'>
+              <ion-text>举手</ion-text>
+            </ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button fill='clear' size="small" class='listbutton'>
+              <ion-text>抢答</ion-text>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item>
+      <ion-thumbnail slot="start">
+        <img src="assets\icon\favicon.png">
+      </ion-thumbnail>
+      <ion-grid>
+        <ion-row>
+          <ion-label>
+            <h2>工程训练</h2>
+            <p>池老师&nbsp;&nbsp;&nbsp;2020-2021-1</p>
+          </ion-label>
+        </ion-row>
+        <ion-row style="height: 20px; align-content: center;">
+          <ion-col>
+            <ion-button fill='clear' size="small" class='listbutton'>
+              <ion-text>签到</ion-text>
+            </ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button fill='clear' size="small" class='listbutton'>
+              <ion-text>举手</ion-text>
+            </ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button fill='clear' size="small" class='listbutton'>
+              <ion-text>抢答</ion-text>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+  <!-- <ion-list lines='full' *ngif="course_length">
+    <ion-item *ngFor="let item of courses; let i=index" routerLink="/view-class" [queryParams]="{courseiD:item.cnameAndiD.courseiD,courseName:item.cnameAndiD.courseName}">
+      <ion-note class="ion-no-margin ion-margin-vertical" slot="start" >
+        {{i+1}}
+      </ion-note>
+      <ion-thumbnail slot="start">
+        <img src="../../../../assets/img/class_icon.png">
+      </ion-thumbnail>
+      <ion-avatar slot="end">
+        <ion-button fill='clear'>
+          <ion-icon slot="icon-only" name="arrow-forward-outline"></ion-icon>
+        </ion-button>
+      </ion-avatar>
+      <ion-label>
+        <h2>{{item.cnameAndiD.courseName}}</h2>
+        <p>{{item.cnameAndiD.stuobject}}</p>
+        <p>{{item.cnameAndiD.Teachername}}&nbsp;&nbsp;&nbsp;{{item.cnameAndiD.CoursePlace}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list> -->
+  <!-- <app-explore-container *ngif="!course_length"></app-explore-container> -->
 </ion-content>

@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>注册</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button text="返回"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+  <ion-list lines="full" color="primary" style="margin-top: 10px; padding: 20px;">
+    <!-- <ion-item> -->
+      <ion-label position="stacked" style="margin: 10px;">以下为必填项&nbsp;<ion-text color="danger">*</ion-text></ion-label>
+    <!-- </ion-item> -->
+    <ion-item>
+      <ion-label position="fixed">用户名</ion-label>
+      <ion-input [(ngModel)]="signup.username"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="fixed">手机号</ion-label>
+      <ion-input type='number' [(ngModel)]="signup.phone"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="fixed">学号/工号</ion-label>
+      <ion-input type='number' [(ngModel)]="signup.userNo"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="fixed">姓名</ion-label>
+      <ion-input [(ngModel)]="signup.name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="fixed">密码</ion-label>
+      <ion-input type='password' [(ngModel)]="signup.password"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="fixed">确认密码</ion-label>
+      <ion-input type='password' [(ngModel)]="signup.confirmPassword"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>身份&nbsp;<ion-text color="danger">*</ion-text></ion-label>
+      <ion-select (ionChange)='onChangeIdentity($event)' [(ngModel)]="signup.identity" value='student'
+        interface="action-sheet">
+        <ion-select-option value='teacher'>教师</ion-select-option>
+        <ion-select-option value='student'>学生</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item [hidden]="!isStudent">
+      <ion-label position="stacked">以下为选填项</ion-label>
+      <ion-input placeholder="学校" [(ngModel)]="signup.school"></ion-input>
+      <ion-input placeholder="专业" [(ngModel)]="signup.major"></ion-input>
+      <ion-input placeholder="班级" [(ngModel)]="signup.class"></ion-input>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <div class="ion-padding">
+    <ion-button (click)="onSubmit()" expand="block" class="ion-no-margin">
+      提交
+    </ion-button>
+  </div>
+</ion-footer>
