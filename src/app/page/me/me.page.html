@@ -1,0 +1,89 @@
+<!-- <ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>店主</ion-title>
+    <ion-buttons slot="end" (click)="settings()">
+      <ion-button>
+        <ion-icon slot="icon-only" name="settings"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list>
+    <ion-item color="primary">
+      <ion-label>
+        <ion-text>
+          <h2>李杲正的老店</h2>
+        </ion-text>
+        <p>12345678910</p>
+      </ion-label>
+      <ion-badge slot="end" color="primary">高级版</ion-badge>
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-item detail *ngFor="let page of appPages" [routerLink]="page.url">
+      <ion-icon [name]="page.icon" slot="start"></ion-icon>
+      <ion-label>{{page.title}}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content> -->
+<ion-header [translucent]="true">
+  <ion-toolbar mode='ios'>
+    <ion-title>
+      我的
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="refreshData($event)" mode='ios'>
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="下拉刷新"
+      refreshingSpinner="circles"
+      refreshingText="加载中...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <ion-list>
+    <ion-item style="margin-top: 20px;"  no-lines="">
+      <ion-avatar item-start="" class='avatar_margin'>
+        <img src="assets\icon\favicon.png">
+      </ion-avatar>
+      <ion-label>
+        <h2>李杲正</h2>
+        <p>200327167</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-list inset="true">
+    <ion-item detail (click)="openSetInformation()">
+      <ion-icon slot="start" name="options"></ion-icon>
+      <ion-label>个人信息编辑</ion-label>
+    </ion-item>
+    <ion-item detail (click)="openForgotPassword()">
+      <ion-icon slot="start" name="key"></ion-icon>
+      <ion-label>修改密码</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-list inset="true">
+    <ion-item detail (click)="openAboutUs()">
+      <ion-icon slot="start" name="people"></ion-icon>
+      <ion-label>关于我们</ion-label>
+    </ion-item>
+    <ion-item detail (click)="checkUpdate()">
+      <ion-icon slot="start" name="information-circle"></ion-icon>
+      <ion-label>版本号: {{version}}</ion-label>
+      <ion-note slot="end">检测更新</ion-note>
+    </ion-item>
+  </ion-list>
+
+  <ion-list inset="true" lines="none">
+    <ion-item detail (click)="onLogout()">
+      <ion-icon slot="start" name="push"></ion-icon>
+      <ion-label>安全退出</ion-label>
+    </ion-item>
+  </ion-list>
+
+</ion-content>
