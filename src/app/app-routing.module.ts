@@ -20,7 +20,11 @@ const routes: Routes = [
     path: 'guide',
     loadChildren: () => import('./page/guide/guide.module').then( m => m.GuidePageModule),
     canActivate: [StartAppGuard]
-  }
+  },
+  {
+    path: 'me',
+    loadChildren: () => import('./page/me/me.module').then(m => m.MePageModule)
+  },
 ];
 @NgModule({
   imports: [

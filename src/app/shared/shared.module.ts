@@ -1,3 +1,4 @@
+// import { User } from './class/user';
 import { LocalStorageService } from './service/local-storage.service';
 import { NetworkService } from './service/network.service';
 import { CopyrightComponent } from './compinents/copyright/copyright.component';
@@ -14,7 +15,7 @@ import { CommonModule } from '@angular/common';
         CommonModule,
         FormsModule,
         IonicModule,
-
+        // User,
     ],
     exports: [
         CommonModule,

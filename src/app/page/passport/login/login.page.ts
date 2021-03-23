@@ -1,3 +1,4 @@
+import { User } from './../../../shared/class/user';
 import { NetworkService } from './../../../shared/service/network.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -15,6 +16,7 @@ export class LoginPage implements OnInit {
     username = '';
     password = '';
     code = 0;
+    user: User;
 
     constructor(
         private router: Router, private network: NetworkService, private toastCtrl: ToastController,
@@ -51,6 +53,9 @@ export class LoginPage implements OnInit {
                     const config = this.localStorageService.get('App', '');
                     config.isLaunched = true;
                     this.localStorageService.set('App', config);
+                    this.user = result.data;
+                    this.localStorageService.set('User', this.user);
+                    console.log(this.user.name);
                     this.router.navigateByUrl('/tabs');
                 }
                 else {
