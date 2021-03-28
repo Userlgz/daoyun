@@ -6,38 +6,53 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class NetworkService {
-  url = 'http://120.79.182.99/daoyun';
+  rooturl = 'http://120.79.182.99/daoyun';
   constructor(private http: HttpClient) { }
 
-  login(phone: string, password: string) {
-    const loginurl = this.url + '/user/login' + '?phone=' + phone + '&password=' + password;
-    console.log('net-login' + loginurl);
-    // this.http.get('http://ionic.io', {}, {})
-    //   .then(data => {
-
-    //     console.log(data.status);
-    //     console.log(data.data); // data received by server
-    //     console.log(data.headers);
-
-    //   })
-    //   .catch(error => {
-
-    //     console.log(error.status);
-    //     console.log(error.error); // error message as string
-    //     console.log(error.headers);
-
-    //   });
+  post(url: string, param: any = null){
+    const posturl = this.rooturl + url;
     return new Promise((reslove, reject) => {
-      this.http.post(loginurl, {}).subscribe((response) => {
+      this.http.post(posturl, {}, {params: param}).subscribe((response) => {
         reslove(response);
       }, (error) => {
         reject(error);
       });
     });
-    // this.http.post('https://jsonplaceholder.typicode.com/todos',
-    // {
-    //   userId: 1, title: 'learn ionic 4', completed: false
-    // }, {})
+  }
+  get(url: string, param: any = null){
+    const posturl = this.rooturl + url;
+    return new Promise((reslove, reject) => {
+      this.http.get(posturl, {params: param}).subscribe((response) => {
+        reslove(response);
+      }, (error) => {
+        reject(error);
+      });
+    });
+  }
+  login(phone: string, password: string) {
+    const param = {
+      'phone': phone,
+      'password': password,
+    };
+    return this.post('/user/login', param);
+  }
+  signup(signup: any){
+    return this.post('/user/register', signup);
+  }
+  getverifyCode(phone: string){
+    const param = {
+      'phone': phone,
+    };
+    return this.post('/msg/send', param);
+  }
+  getSchool(){
+    return this.post('/org/school/all');
+  }
+  getCollege(schoolId){
+    const param = {
+      'schoolId': schoolId,
+    };
+    return this.get('/org/college/all', param);
   }
 }
 

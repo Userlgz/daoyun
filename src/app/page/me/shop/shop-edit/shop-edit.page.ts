@@ -1,7 +1,7 @@
+import { SettingServiceService } from './../../../../shared/service/setting-service.service';
 import { LocalStorageService } from './../../../../shared/service/local-storage.service';
 import { User } from './../../../../shared/class/user';
 import { ToastController } from '@ionic/angular';
-import { SettingServiceService } from './../../setting/setting-service.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 

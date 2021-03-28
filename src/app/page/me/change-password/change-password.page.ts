@@ -1,4 +1,4 @@
-import { PassportServiceService } from './../../passport/passport-service.service';
+import { PassportServiceService } from './../../../shared/service/passport-service.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { ToastController, NavController } from '@ionic/angular';

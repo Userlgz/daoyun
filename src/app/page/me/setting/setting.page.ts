@@ -1,5 +1,5 @@
+import { SettingServiceService } from './../../../shared/service/setting-service.service';
 import { LocalStorageService } from './../../../shared/service/local-storage.service';
-import { SettingServiceService } from './setting-service.service';
 import { NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';

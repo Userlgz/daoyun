@@ -12,9 +12,9 @@ export class PassportServiceService {
   /**
    *
    *
-   * @param {Signup} signup
-   * @return {*}  {boolean}
-   * @memberof PassportServiceService
+   * @ param {Signup} signup
+   * @ return {*}  {boolean}
+   * @ memberof PassportServiceService
    */
   signUp(user: User): boolean {
     // signUp(phone: string, email: string, password: string, shopname: string): boolean {
@@ -32,10 +32,10 @@ export class PassportServiceService {
   /**
    *
    *
-   * @param {string} account,
-   * @param {string} password,
-   * @return {*}  {boolean},
-   * @memberof PassportServiceService,
+   * @ param {string} account,
+   * @ param {string} password,
+   * @ return {*}  {boolean},
+   * @ memberof PassportServiceService,
    */
   login(account: string, password: string): boolean {
     const users = this.localStorageService.get('users', '');
@@ -51,8 +51,8 @@ export class PassportServiceService {
     }
     // console.log(len);
     for (i = 0; i < len; i++) {
-      if ((account == users[i].login1.identifier && password == users[i].login1.credential) ||
-        (account == users[i].login2.identifier && password == users[i].login2.credential)) {
+      if ((account === users[i].login1.identifier && password === users[i].login1.credential) ||
+        (account === users[i].login2.identifier && password === users[i].login2.credential)) {
         flag = true;
         break;
       }
@@ -81,8 +81,8 @@ export class PassportServiceService {
     }
     // console.log(len);
     for (i = 0; i < len; i++) {
-      if ((account == users[i].login1.identifier && password == users[i].login1.credential) ||
-        (account == users[i].login2.identifier && password == users[i].login2.credential)) {
+      if ((account === users[i].login1.identifier && password === users[i].login1.credential) ||
+        (account === users[i].login2.identifier && password === users[i].login2.credential)) {
         flag = true;
         break;
       }
@@ -98,14 +98,14 @@ export class PassportServiceService {
     // console.log('account:' + account + ' ' + password);
     let flag = false;
     let len: number;
-    if (users == null) {
+    if (users === null) {
       len = 0;
     }
     else {
       len = users.length;
     }
     for (let i = 0; i < len; i++) {
-      if ((account == users[i].login1.identifier) || (account == users[i].login2.identifier)) {
+      if ((account === users[i].login1.identifier) || (account === users[i].login2.identifier)) {
         flag = true;
         break;
       }
@@ -130,8 +130,8 @@ export class PassportServiceService {
     }
     // console.log(len);
     for (i = 0; i < len; i++) {
-      if ((user.login1.identifier == users[i].login1.identifier) ||
-        (user.login2.identifier == users[i].login2.identifier)) {
+      if ((user.login1.identifier === users[i].login1.identifier) ||
+        (user.login2.identifier === users[i].login2.identifier)) {
         flag = true;
         break;
       }
@@ -143,31 +143,22 @@ export class PassportServiceService {
     return users[i].login1.credential;
   }
   getUser(): User {
-    const users = this.localStorageService.get('users', '');
-    const user = this.localStorageService.get('loginuser', '');
+    const user = this.localStorageService.get('User', '');
     // console.log('account:' + account + ' ' + password);
-    let flag = false;
-    let len: number;
-    let i = 0;
-    if (users === null) {
-      len = 0;
-    }
-    else {
-      len = users.length;
-    }
-    // console.log(len);
-    for (i = 0; i < len; i++) {
-      if ((user.login1.identifier == users[i].login1.identifier) ||
-        (user.login2.identifier == users[i].login2.identifier)) {
-        flag = true;
-        break;
-      }
-    }
-    if (!flag) {
+    if (user === null) {
       console.log('未注册');
       return null;
     }
-    return users[i];
+    return user;
+  }
+  getUserId(): User {
+    const user = this.localStorageService.get('user', '');
+    // console.log('account:' + account + ' ' + password);
+    if (user === null) {
+      console.log('未注册');
+      return null;
+    }
+    return user.id;
   }
   updatePassword(password: string): boolean {
     const users = this.localStorageService.get('users', '');
@@ -184,8 +175,8 @@ export class PassportServiceService {
     }
     // console.log(len);
     for (i = 0; i < len; i++) {
-      if ((user.login1.identifier == users[i].login1.identifier) ||
-        (user.login2.identifier == users[i].login2.identifier)) {
+      if ((user.login1.identifier === users[i].login1.identifier) ||
+        (user.login2.identifier === users[i].login2.identifier)) {
         users[i].login1.credential = password;
         users[i].login2.credential = password;
         users[i].password = password;

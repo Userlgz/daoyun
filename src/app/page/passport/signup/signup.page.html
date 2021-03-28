@@ -12,17 +12,18 @@
     <!-- <ion-item> -->
       <!-- <ion-label position="stacked" style="margin: 10px;">以下为必填项&nbsp;<ion-text color="danger">*</ion-text></ion-label> -->
     <!-- </ion-item> -->
-    <ion-item>
-      <ion-label position="fixed">手机号&nbsp;<ion-text color="danger">*</ion-text></ion-label>
-      <ion-input type='number' [(ngModel)]="signup.phone"></ion-input>
-    </ion-item>
+    
     <ion-item>
       <ion-label position="fixed">学号/工号&nbsp;<ion-text color="danger">*</ion-text></ion-label>
-      <ion-input type='number' [(ngModel)]="signup.userNo"></ion-input>
+      <ion-input type='text' [(ngModel)]="signup.userId"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="fixed">姓名&nbsp;<ion-text color="danger">*</ion-text></ion-label>
       <ion-input [(ngModel)]="signup.name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="fixed">手机号&nbsp;<ion-text color="danger">*</ion-text></ion-label>
+      <ion-input type='text' [(ngModel)]="signup.phone"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="fixed">密码&nbsp;<ion-text color="danger">*</ion-text></ion-label>
@@ -30,36 +31,34 @@
     </ion-item>
     <ion-item>
       <ion-label position="fixed">确认密码&nbsp;<ion-text color="danger">*</ion-text></ion-label>
-      <ion-input type='password' [(ngModel)]="signup.confirmPassword"></ion-input>
+      <ion-input type='password' [(ngModel)]="confirmPassword"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>身份&nbsp;<ion-text color="danger">*</ion-text></ion-label>
-      <ion-select (ionChange)='onChangeIdentity($event)' [(ngModel)]="signup.identity" value='student'
+      <ion-select (ionChange)='onChangepermission($event)' [(ngModel)]="signup.permission"
         interface="action-sheet">
-        <ion-select-option value='teacher'>教师</ion-select-option>
-        <ion-select-option value='student'>学生</ion-select-option>
+        <ion-select-option value='2'>教师</ion-select-option>
+        <ion-select-option value='3'>学生</ion-select-option>
       </ion-select>
     </ion-item>
     <ion-item>
       <ion-label>学校&nbsp;<ion-text color="danger">*</ion-text></ion-label>
-      <ion-select (ionChange)='onChangeIdentity($event)' [(ngModel)]="signup.identity" value='student'
+      <ion-select (ionChange)='onChangeschool($event)'
         interface="action-sheet">
-        <ion-select-option value='teacher'>福大</ion-select-option>
-        <ion-select-option value='student'>江夏</ion-select-option>
+        <ion-select-option [value]='item' *ngFor="let item of schools">{{item.name}}</ion-select-option>
       </ion-select>
     </ion-item>
     <ion-item>
       <ion-label>学院&nbsp;<ion-text color="danger">*</ion-text></ion-label>
-      <ion-select (ionChange)='onChangeIdentity($event)' [(ngModel)]="signup.identity" value='student'
-        interface="action-sheet">
-        <ion-select-option value='teacher'>计算机</ion-select-option>
-        <ion-select-option value='student'>法律</ion-select-option>
+      <ion-select (ionChange)='onChangecollege($event)' [(ngModel)]="signup.college"
+        interface="action-sheet" [disabled]="isCollegeShow">
+        <ion-select-option [value]='item.name' *ngFor="let item of colleges">{{item.name}}</ion-select-option>
       </ion-select>
     </ion-item>
     <ion-item>
       <ion-label position="fixed">验证码&nbsp;<ion-text color="danger">*</ion-text></ion-label>
-      <ion-input type='password' [(ngModel)]="signup.password"></ion-input>
-      <ion-button expand="full" color="primary" (click)="getValidCode(loginForm)">
+      <ion-input type='text' [(ngModel)]="signup.verifyCode"></ion-input>
+      <ion-button expand="full" color="primary" (click)="getverifyCode()">
         获取验证码</ion-button>
     </ion-item>
   </ion-list>

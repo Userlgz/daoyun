@@ -1,5 +1,5 @@
+import { SettingServiceService } from './../../../shared/service/setting-service.service';
 import { LocalStorageService } from './../../../shared/service/local-storage.service';
-import { SettingServiceService } from './../setting/setting-service.service';
 import { Component, OnInit } from '@angular/core';
 import { from } from 'rxjs';
 
