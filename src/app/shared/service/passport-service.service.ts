@@ -1,13 +1,17 @@
 import { LocalStorageService } from './../../shared/service/local-storage.service';
 import { User } from './../../shared/class/user';
 import { Injectable } from '@angular/core';
+import { AlertController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PassportServiceService {
 
-  constructor(private localStorageService: LocalStorageService) { }
+  constructor(
+    private localStorageService: LocalStorageService,
+    private alertController: AlertController,
+    ) { }
 
   /**
    *
@@ -194,5 +198,15 @@ export class PassportServiceService {
     this.localStorageService.set('users', users);
     this.localStorageService.set('loginuser', user);
     return true;
+  }
+
+  async presentAlert(message) {
+    const alert = await this.alertController.create({
+      animated: true,
+      mode: 'ios',
+      message: message,
+      buttons: ['OK']
+    });
+    await alert.present();
   }
 }
