@@ -1,9 +1,58 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>members</ion-title>
+  <ion-toolbar color="primary">
+    <ion-buttons>
+      <ion-back-button defaultHref="/home" text="返回"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{courseName}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <!-- <ion-refresher slot="fixed" (ionRefresh)="refreshData($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="下拉刷新"
+      refreshingSpinner="circles"
+      refreshingText="加载中...">
+    </ion-refresher-content>
+  </ion-refresher> -->
+  <ion-toolbar style="margin-top: 10px; margin-bottom: 10px;">
+    <ion-buttons>
+        <ion-tab-button (click)="onClick()">
+            <img src="assets\icon\qd.png" style="width: 60%;"/>
+          <ion-label>发起签到</ion-label>
+        </ion-tab-button>
+        <ion-tab-button (click)="onClick()">
+            <img src="assets\icon\xy.png" style="width: 60%;"/>
+          <ion-label>心意卡片</ion-label>
+        </ion-tab-button>
+        <ion-tab-button (click)="onClick()">
+            <img src="assets\icon\xz.png" style="width: 60%;"/>
+          <ion-label>小组方案</ion-label>
+        </ion-tab-button>
+        <ion-tab-button (click)="onClick()">
+            <img src="assets\icon\jg.png" style="width: 60%;"/>
+          <ion-label>挂科预警</ion-label>
+        </ion-tab-button>
+    </ion-buttons>
+  </ion-toolbar>
 
+  <ion-list>
+    <ion-item-divider style="margin-top: 2px; margin-bottom: 2px;" color="light">
+      <ion-label slot="start">成员</ion-label>
+      <ion-label slot="end">{{students.length}}人</ion-label>
+    </ion-item-divider>
+    <ion-item *ngFor="let item of students; let i=index" style="margin-top: 10px;" detail routerLink="../member-info">
+      <ion-thumbnail>
+        <img src="assets/img/person/dp.png" />
+      </ion-thumbnail>
+      <ion-label class="label1">
+        <h2>{{item.name}}</h2>
+        <p>{{item.userId}}</p>
+        <!-- <p>签到&nbsp;{{item.ok}}&nbsp;&nbsp;迟到&nbsp;{{item.later}}&nbsp;&nbsp;缺勤&nbsp;{{item.no}}</p> -->
+      </ion-label>
+      <h2 class="experience_h" style="color: rgb(253, 169, 67);">{{item.experience}}</h2>
+      <p class="p1" style="color: rgb(253, 169, 67);">&nbsp;经验值</p>
+    </ion-item>
+  </ion-list>
 </ion-content>

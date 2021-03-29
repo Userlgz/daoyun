@@ -1,3 +1,5 @@
+import { VarServiceService } from './../../shared/service/var-service.service';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +9,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CoursePage implements OnInit {
 
-  constructor() { }
+  courseName = '';
+
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+  ) {
+      this.courseName = VarServiceService.courseName;
+    // console.log('constructor' + this.courseName);
+    // this.activatedRoute.queryParams.subscribe(
+    //   (queryParams: Params) => {
+    //     console.log(queryParams);
+    //     this.courseName = queryParams.courseName;
+    //   }
+    // );
+  }
 
   ngOnInit() {
+    // console.log('ngOnInit');
+    // console.log(this.courseName);
   }
 
 }

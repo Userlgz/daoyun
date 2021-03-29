@@ -27,45 +27,15 @@
     </ion-buttons>
   </ion-toolbar>
   <ion-list>
-    <ion-item (click)="toCourse()">
-      <ion-thumbnail slot="start">
+    <ion-item *ngFor="let course of courses">
+      <ion-thumbnail slot="start" (click)="toCourse(course.name)">
         <img src="assets\icon\favicon.png">
       </ion-thumbnail>
       <ion-grid>
-        <ion-row>
+        <ion-row (click)="toCourse(course.name)">
           <ion-label>
-            <h2>工程训练</h2>
-            <p>池老师&nbsp;&nbsp;&nbsp;2020-2021-1</p>
-          </ion-label>
-        </ion-row>
-        <ion-row style="height: 20px; align-content: center;">
-          <ion-col>
-            <ion-button fill='clear' size="small" class='listbutton'>
-              <ion-text>签到</ion-text>
-            </ion-button>
-          </ion-col>
-          <ion-col>
-            <ion-button fill='clear' size="small" class='listbutton'>
-              <ion-text>举手</ion-text>
-            </ion-button>
-          </ion-col>
-          <ion-col>
-            <ion-button fill='clear' size="small" class='listbutton'>
-              <ion-text>抢答</ion-text>
-            </ion-button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-item>
-    <ion-item>
-      <ion-thumbnail slot="start">
-        <img src="assets\icon\favicon.png">
-      </ion-thumbnail>
-      <ion-grid>
-        <ion-row>
-          <ion-label>
-            <h2>工程训练</h2>
-            <p>池老师&nbsp;&nbsp;&nbsp;2020-2021-1</p>
+            <h2>{{course.name}}</h2>
+            <p>{{course.teacherName}}&nbsp;&nbsp;&nbsp;{{course.term}}</p>
           </ion-label>
         </ion-row>
         <ion-row style="height: 20px; align-content: center;">

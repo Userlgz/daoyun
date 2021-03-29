@@ -1,3 +1,4 @@
+import { VarServiceService } from './service/var-service.service';
 // import { User } from './class/user';
 import { LocalStorageService } from './service/local-storage.service';
 import { NetworkService } from './service/network.service';
@@ -25,7 +26,8 @@ import { CommonModule } from '@angular/common';
     ],
     providers: [
         NetworkService,
-        LocalStorageService
+        LocalStorageService,
+        VarServiceService,
     ]
 })
 export class SharedModule { }

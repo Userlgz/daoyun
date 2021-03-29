@@ -24,9 +24,12 @@ const routes: Routes = [
     ]
   },
   {
-    path: '',
-    redirectTo: '/course/members',
-    pathMatch: 'full'
+    path: 'member-info',
+    loadChildren: () => import('./member-info/member-info.module').then( m => m.MemberInfoPageModule)
+  },
+  {
+    path: 'sign-info',
+    loadChildren: () => import('./sign-info/sign-info.module').then( m => m.SignInfoPageModule)
   }
 ];
 

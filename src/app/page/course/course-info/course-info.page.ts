@@ -1,3 +1,4 @@
+import { VarServiceService } from './../../../shared/service/var-service.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,7 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CourseInfoPage implements OnInit {
 
-  constructor() { }
+  courseName = '13213';
+  constructor() {
+    this.courseName = VarServiceService.courseName;
+  }
 
   ngOnInit() {
   }

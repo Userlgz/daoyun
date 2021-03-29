@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons>
+      <ion-back-button text="返回"></ion-back-button>
+    </ion-buttons>
+    <ion-title>经验值详情</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let item of signInfo" style="margin-top: 10px;">
+      <ion-label class="label1" [hidden]="!item.status">
+        <h2>签到成功</h2>
+        <p>{{item.beginTime}}</p>
+      </ion-label>
+      <ion-label class="label1" [hidden]="item.status">
+        <h2>签到失败</h2>
+        <p>{{item.beginTime}}</p>
+      </ion-label>
+      <ion-label slot="end" style="text-align: right" [hidden]="!item.status">
+        <ion-icon name="add" color="success"></ion-icon>
+        <ion-text color="success">{{item.experience}}</ion-text>
+      </ion-label>
+      <ion-label slot="end" style="text-align: right" [hidden]="item.status">
+        <ion-icon name="remove" color="danger"></ion-icon>
+        <ion-text color="danger">{{item.experience}}</ion-text>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

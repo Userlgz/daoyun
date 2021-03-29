@@ -1,21 +1,20 @@
-import { SharedModule } from './../../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { CoursePageRoutingModule } from './course-routing.module';
+import { SignInfoPageRoutingModule } from './sign-info-routing.module';
 
-import { CoursePage } from './course.page';
+import { SignInfoPage } from './sign-info.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CoursePageRoutingModule,
+    SignInfoPageRoutingModule
   ],
-  declarations: [CoursePage]
+  declarations: [SignInfoPage]
 })
-export class CoursePageModule {}
+export class SignInfoPageModule {}
