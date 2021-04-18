@@ -36,7 +36,15 @@ const routes: Routes = [
   {
     path: 'course',
     loadChildren: () => import('./page/course/course.module').then( m => m.CoursePageModule)
+  },  {
+    path: 'sign',
+    loadChildren: () => import('./page/sign/sign.module').then( m => m.SignPageModule)
   },
+  {
+    path: 'organization',
+    loadChildren: () => import('./page/organization/organization.module').then( m => m.OrganizationPageModule)
+  },
+
 ];
 @NgModule({
   imports: [

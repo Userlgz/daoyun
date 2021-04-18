@@ -7,7 +7,7 @@
       <ion-segment-button value="join">我加入的</ion-segment-button>
     </ion-segment>
     <ion-buttons slot="end" size='large'>
-      <ion-button (click)="showMenu()">
+      <ion-button (click)="onPresentPopover($event)">
         <ion-icon slot="icon-only" name="add-outline" size='large'></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -28,19 +28,23 @@
   </ion-toolbar>
   <ion-list>
     <ion-item *ngFor="let course of courses">
-      <ion-thumbnail slot="start" (click)="toCourse(course.name)">
+      <ion-thumbnail slot="start" (click)="toCourse(course)">
         <img src="assets\icon\favicon.png">
       </ion-thumbnail>
       <ion-grid>
-        <ion-row (click)="toCourse(course.name)">
-          <ion-label>
+        <ion-row (click)="toCourse(course)">
+          <ion-label *ngIf="isJoin">
             <h2>{{course.name}}</h2>
             <p>{{course.teacherName}}&nbsp;&nbsp;&nbsp;{{course.term}}</p>
+          </ion-label>
+          <ion-label *ngIf="!isJoin">
+            <h2>{{course.name}}</h2>
+            <p>{{course.term}}&nbsp;&nbsp;&nbsp;{{course.courseNumber}}</p>
           </ion-label>
         </ion-row>
         <ion-row style="height: 20px; align-content: center;">
           <ion-col>
-            <ion-button fill='clear' size="small" class='listbutton'>
+            <ion-button fill='clear' size="small" class='listbutton' (click)="onSign(course.id)">
               <ion-text>签到</ion-text>
             </ion-button>
           </ion-col>

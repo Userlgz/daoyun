@@ -14,8 +14,9 @@ export class CoursePage implements OnInit {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private varServiceService: VarServiceService,
   ) {
-      this.courseName = VarServiceService.courseName;
+      this.courseName = varServiceService.getCourseName();
     // console.log('constructor' + this.courseName);
     // this.activatedRoute.queryParams.subscribe(
     //   (queryParams: Params) => {

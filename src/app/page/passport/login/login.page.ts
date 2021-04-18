@@ -1,3 +1,5 @@
+import { VarServiceService } from 'src/app/shared/service/var-service.service';
+import { Permission } from './../../../shared/class/permission';
 import { User } from './../../../shared/class/user';
 import { NetworkService } from './../../../shared/service/network.service';
 import { Component, OnInit } from '@angular/core';
@@ -17,10 +19,12 @@ export class LoginPage implements OnInit {
     password = '';
     code = 0;
     user: User;
+    permission: Permission;
 
     constructor(
         private router: Router, private network: NetworkService, private toastCtrl: ToastController,
-        private localStorageService: LocalStorageService, private alertCtrl: AlertController
+        private localStorageService: LocalStorageService, private alertCtrl: AlertController,
+        private varServiceService: VarServiceService,
     ) { }
 
     ngOnInit() {
@@ -43,7 +47,9 @@ export class LoginPage implements OnInit {
             toast.present();
         } else {
             // 密码不对时提示错误
+            this.varServiceService.presentToast('登录');
             this.network.login(this.username, this.password).then(async (result: any) => {
+                this.varServiceService.presentToast('登录中');
                 console.log(result);
                 this.code = result.code;
                 console.log(this.code);
@@ -53,18 +59,22 @@ export class LoginPage implements OnInit {
                     const config = this.localStorageService.get('App', '');
                     config.isLaunched = true;
                     this.localStorageService.set('App', config);
-                    this.user = result.data;
+                    this.user = result.data.user;
                     this.localStorageService.set('User', this.user);
+                    this.permission = result.data.permission;
+                    this.localStorageService.set('Permission', this.permission);
                     console.log(this.user.name);
-                    this.router.navigateByUrl('/tabs');
+                    this.router.navigateByUrl('tabs');
                 }
                 else {
+                    this.varServiceService.presentToast('登录错误');
+                    this.varServiceService.presentToast(result.msg);
                     const alert = await this.alertCtrl.create({
                         header: '提示',
                         message: '用户名或者密码不正确',
                         buttons: ['确定']
                     });
-                    alert.present();
+                    await alert.present();
                 }
             });
             // if (!this.passportService.login(this.username, this.password)) {
@@ -89,5 +99,9 @@ export class LoginPage implements OnInit {
     onForgotPassword() {
         console.log('forgotpassword');
         this.router.navigateByUrl('/passport/forgotpassword');
+    }
+    onWeChat(){
+        // this.router.navigateByUrl('organization');
+        this.router.navigate(['organization'], { queryParams: {fromUrl: 'passport/login'} });
     }
 }

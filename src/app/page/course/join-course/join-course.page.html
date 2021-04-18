@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>join-course</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item-divider style="padding: 10%">
+    <ion-thumbnail style="margin: auto; width: 30%; height: auto;">
+      <img src='assets\img\class_icon.png'>
+    </ion-thumbnail>
+  </ion-item-divider>
+  <ion-list inset="true" style="margin: 2% 3% 2% 3%;">
+    <ion-item>
+      <ion-label class="label-padding">课程名称</ion-label>
+      <ion-note>{{course.name}}</ion-note>
+    </ion-item>
+    <ion-item>
+      <ion-label>班级</ion-label>
+      <ion-note>{{course.classNumber}}</ion-note>
+    </ion-item>
+    <ion-item>
+      <ion-label>学期</ion-label>
+      <ion-note slot="end">{{course.term}}</ion-note>
+    </ion-item>
+    <!-- <ion-item (click)="onDetail()">
+      <ion-icon *ngIf="!detail" slot="end" name="chevron-down-outline"></ion-icon>
+      <ion-icon *ngIf="detail" slot="end" name="chevron-up-outline"></ion-icon>
+      <ion-label>课程详情</ion-label>
+    </ion-item> -->
+
+    <ion-item>
+      <ion-label>学校学院</ion-label>
+      <ion-note class="smallnote">{{course.school}} {{course.college}}</ion-note>
+    </ion-item>
+
+    <ion-item>
+      <ion-label class="biglabel" position="stacked">教学安排</ion-label>
+      <ion-note>{{course.teach_arrange}}</ion-note>
+    </ion-item>
+    <ion-item>
+      <ion-label class="biglabel" position="stacked">考试安排</ion-label>
+      <ion-note>{{course.test_arrange}}</ion-note>
+    </ion-item>
+    <ion-item hidden=true></ion-item>
+
+  </ion-list>
+
+
+
+</ion-content>
+
+<ion-footer style="padding-bottom: 5%;">
+  <ion-button expand="full" color="primary" style="width: 90%; margin: auto" (click)="onSubmission()">加入课程</ion-button>
+</ion-footer>

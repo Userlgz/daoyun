@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text="返回"></ion-back-button>
+    </ion-buttons>
+    <ion-title>gesture</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-progress-bar type="indeterminate" color="light" *ngIf="hasPost"></ion-progress-bar>
+  <div class="div3">
+    <form #postForm="ngForm" (ngSubmit)="onSubmit()">
+      <ion-item>
+        <!-- <app-gesture></app-gesture> -->
+        
+      </ion-item>
+      <!-- <ion-button class="ion-margin" shape='round' color="success" expand="block" mode='ios' type="submit" [disabled]="postForm.invalid">
+        开始签到
+      </ion-button> -->
+    </form>
+  </div>
+  <!-- <app-gesture></app-gesture> -->
+  <canvas id="lockCanvass" (click)="onClick($event)"></canvas>
+</ion-content>

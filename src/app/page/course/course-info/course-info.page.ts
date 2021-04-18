@@ -8,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CourseInfoPage implements OnInit {
 
-  courseName = '13213';
-  constructor() {
-    this.courseName = VarServiceService.courseName;
+  courseName = '';
+  constructor(
+    private varServiceService: VarServiceService,
+  ) {
+    this.courseName = varServiceService.getCourseName();
   }
 
   ngOnInit() {

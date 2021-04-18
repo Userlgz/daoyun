@@ -30,7 +30,15 @@ const routes: Routes = [
   {
     path: 'sign-info',
     loadChildren: () => import('./sign-info/sign-info.module').then( m => m.SignInfoPageModule)
+  },  {
+    path: 'create-course',
+    loadChildren: () => import('./create-course/create-course.module').then( m => m.CreateCoursePageModule)
+  },
+  {
+    path: 'join-course',
+    loadChildren: () => import('./join-course/join-course.module').then( m => m.JoinCoursePageModule)
   }
+
 ];
 
 @NgModule({

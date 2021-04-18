@@ -1,3 +1,5 @@
+import { PickerService } from './service/picker.service';
+import { GestureComponent } from './compinents/gesture/gesture.component';
 import { VarServiceService } from './service/var-service.service';
 // import { User } from './class/user';
 import { LocalStorageService } from './service/local-storage.service';
@@ -10,7 +12,8 @@ import { CommonModule } from '@angular/common';
 
 @NgModule({
     declarations: [
-        CopyrightComponent
+        CopyrightComponent,
+        GestureComponent
     ],
     imports: [
         CommonModule,
@@ -23,11 +26,13 @@ import { CommonModule } from '@angular/common';
         FormsModule,
         IonicModule,
         CopyrightComponent,
+        GestureComponent,
     ],
     providers: [
         NetworkService,
         LocalStorageService,
         VarServiceService,
+        PickerService
     ]
 })
 export class SharedModule { }

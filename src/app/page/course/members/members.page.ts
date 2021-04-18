@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { NetworkService } from './../../../shared/service/network.service';
 import { Component, OnInit } from '@angular/core';
 import { VarServiceService } from 'src/app/shared/service/var-service.service';
 
@@ -13,27 +15,15 @@ export class MembersPage implements OnInit {
   // students = [];
   sortStudent: any;
 
-  students = [
-    {
-      name: '111',
-      userId: '2222',
-      ok: 1,
-      later: 2,
-      no: 3,
-      experience: 4
-    },
-    {
-      name: '333',
-      userId: '4444',
-      ok: 1,
-      later: 2,
-      no: 3,
-      experience: 4
-    },
-  ];
+  students = [];
 
-  constructor() {
-    this.courseName = VarServiceService.courseName;
+  constructor(
+    private varServiceService: VarServiceService,
+    private networkService: NetworkService,
+    private router: Router
+  ) {
+    this.courseName = varServiceService.getCourseName();
+    this.getStudents();
    }
 
   ngOnInit() {
@@ -45,5 +35,23 @@ export class MembersPage implements OnInit {
 
   onStuInfo(event){
     console.log(event);
+  }
+  getStudents(){
+    this.networkService.getCoursesMembers(this.varServiceService.getCourseID(),
+     this.varServiceService.getUser().token).then(async (result: any) => {
+      if (result.code === 200) {
+        this.students = result.data;
+        // this.presentAlert(result.msg);
+        // this.router.navigateByUrl('passport/login');
+        console.log(this.students[0]);
+      }
+      else {
+        // this.presentAlert(result.msg);
+        console.log(result);
+      }
+    });
+  }
+  toMemberInfo(num){
+    this.router.navigate(['course/member-info'], { queryParams: this.students[num] });
   }
 }

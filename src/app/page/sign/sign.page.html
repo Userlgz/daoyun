@@ -1,0 +1,16 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button text="返回"></ion-back-button>
+    </ion-buttons>
+    <ion-title>创建签到</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-progress-bar type="indeterminate" color="light" *ngIf="hasPost"></ion-progress-bar>
+  <div class="align-bottom" #map id="map_container"></div>
+  <p>经纬度</p>
+  <p>{{longitude}} {{latitude}}</p>
+</ion-content>
+<!-- <div hidden="true" class='patt-wrap'>SWGBHAEFHJNRTMJWYTM</div> -->

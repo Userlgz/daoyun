@@ -4,7 +4,7 @@
   </ion-toolbar> -->
 </ion-header>
 
-<ion-content class="ion-no-padding" style="top: 10%">
+<ion-content class="ion-no-padding" style="top: 10%" id="abds">
   <div style="text-align: center;">
     <img src="assets/icon/favicon.png" alt="" style="width: 20%; height: 20%">
   </div>
@@ -15,7 +15,7 @@
         <ion-item lines="none"></ion-item>
         <ion-item>
           <ion-label position="fixed">账号</ion-label>
-          <ion-input name="username" type="text" placeholder="手机号或者电子邮箱" [(ngModel)]="username"></ion-input>
+          <ion-input name="username" type="text" placeholder="手机号" [(ngModel)]="username"></ion-input>
         </ion-item>
         <ion-item>
           <ion-label position="fixed">密码</ion-label>
@@ -43,7 +43,7 @@
         </ion-row>  -->
         <ion-row style="place-content: center;">
           <ion-col>
-            <ion-button (click)="onClick()" fill="clear" expand="full" size="small">
+            <ion-button (click)="onWeChat()" fill="clear" expand="full" size="small">
               <ion-icon name="logo-wechat" slot="start"></ion-icon>
               <ion-text color="primary">
                 <p>微信登录</p>

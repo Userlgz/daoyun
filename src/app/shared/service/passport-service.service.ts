@@ -1,3 +1,4 @@
+import { VarServiceService } from 'src/app/shared/service/var-service.service';
 import { LocalStorageService } from './../../shared/service/local-storage.service';
 import { User } from './../../shared/class/user';
 import { Injectable } from '@angular/core';
@@ -11,6 +12,7 @@ export class PassportServiceService {
   constructor(
     private localStorageService: LocalStorageService,
     private alertController: AlertController,
+    private varServiceService: VarServiceService,
     ) { }
 
   /**
@@ -147,7 +149,7 @@ export class PassportServiceService {
     return users[i].login1.credential;
   }
   getUser(): User {
-    const user = this.localStorageService.get('User', '');
+    const user = this.varServiceService.getUser();
     // console.log('account:' + account + ' ' + password);
     if (user === null) {
       console.log('未注册');
@@ -198,15 +200,5 @@ export class PassportServiceService {
     this.localStorageService.set('users', users);
     this.localStorageService.set('loginuser', user);
     return true;
-  }
-
-  async presentAlert(message) {
-    const alert = await this.alertController.create({
-      animated: true,
-      mode: 'ios',
-      message: message,
-      buttons: ['OK']
-    });
-    await alert.present();
   }
 }
