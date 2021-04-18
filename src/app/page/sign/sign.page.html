@@ -1,16 +1,82 @@
 <ion-header class="ion-no-border">
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button text="返回"></ion-back-button>
+      <ion-back-button text="返回" icon="chevron-back-outline"></ion-back-button>
     </ion-buttons>
-    <ion-title>创建签到</ion-title>
+    <ion-title>签到</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-progress-bar type="indeterminate" color="light" *ngIf="hasPost"></ion-progress-bar>
+  <!-- <ion-progress-bar type="indeterminate" color="light" *ngIf="hasPost"></ion-progress-bar>
   <div class="align-bottom" #map id="map_container"></div>
-  <p>经纬度</p>
-  <p>{{longitude}} {{latitude}}</p>
+  <p>{{pText}}</p>
+  <p>{{longitude}} {{latitude}}</p> -->
+  <ion-list>
+    <ion-item>
+      <ion-label>选择签到方式</ion-label>
+    </ion-item>
+    <!-- <ion-item> -->
+    <!-- <ion-buttons> -->
+    <ion-grid style="text-align: center;">
+      <ion-row class="row">
+        <ion-col size="3">
+          <ion-icon src="assets/icon/hand-right-outline.svg" (click)="onOneClick()"></ion-icon>
+        </ion-col>
+        <ion-col size="3">
+          <ion-icon src="assets/icon/alarm-outline.svg" (click)="onLimitTime()"></ion-icon>
+        </ion-col>
+        <ion-col size="3">
+          <ion-icon src="assets/icon/apps-outline.svg" (click)="onGesture()"></ion-icon>
+        </ion-col>
+        <ion-col size="3">
+          <ion-icon src="assets/icon/reader-outline.svg" (click)="onManual()"></ion-icon>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="3" (click)="onOneClick()">
+          一键签到
+        </ion-col>
+        <ion-col size="3" (click)="onLimitTime()">
+          限时签到
+        </ion-col>
+        <ion-col size="3" (click)="onGesture()">
+          手势签到
+        </ion-col>
+        <ion-col size="3" (click)="onManual()">
+          手动签到
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <!-- <ion-item-divider style="margin-top: 2px; margin-bottom: 2px;" color="light"></ion-item-divider> -->
+    <ion-item>
+      <ion-label>历史签到记录</ion-label>
+    </ion-item>
+    <ion-item-group>
+      <ion-item *ngFor="let item of signRecords; let i=index" style="padding-top: 10px;" detail (click)="toMemberInfo(i)">
+        <ion-label class="label1">
+          <h2>{{item.beginTime}}</h2>
+          <p>{{item.parameter.name}}</p>
+          <!-- <p>签到&nbsp;{{item.ok}}&nbsp;&nbsp;迟到&nbsp;{{item.later}}&nbsp;&nbsp;缺勤&nbsp;{{item.no}}</p> -->
+        </ion-label>
+      </ion-item>
+    </ion-item-group>
+    <!-- <ion-item-divider style="margin-top: 2px; margin-bottom: 2px;" color="light"></ion-item-divider> -->
+    <!-- <ion-d -->
+    <!-- <ion-button (click)="onClick()">
+          <ion-icon class="topicon" src="add"></ion-icon>
+          <p class="bp">一键签到</p>
+        </ion-button>
+        <ion-button (click)="onClick()">
+          <ion-icon class="topicon" src="add"></ion-icon>
+          <p class="bp">一键签到</p>
+        </ion-button>
+        <ion-button (click)="onClick()">
+          <ion-icon class="topicon" src="add"></ion-icon>
+          <p class="bp">一键签到</p>
+        </ion-button> -->
+    <!-- </ion-buttons> -->
+    <!-- </ion-item> -->
+  </ion-list>
 </ion-content>
 <!-- <div hidden="true" class='patt-wrap'>SWGBHAEFHJNRTMJWYTM</div> -->

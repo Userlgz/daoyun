@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { Router, Params } from '@angular/router';
 import { NetworkService } from './../../../shared/service/network.service';
 import { Component, OnInit } from '@angular/core';
 import { VarServiceService } from 'src/app/shared/service/var-service.service';
@@ -12,6 +12,7 @@ export class MembersPage implements OnInit {
 
   courseName = '';
   courseId = '';
+  totalExperience: number;
   // students = [];
   sortStudent: any;
 
@@ -24,34 +25,40 @@ export class MembersPage implements OnInit {
   ) {
     this.courseName = varServiceService.getCourseName();
     this.getStudents();
-   }
+  }
 
   ngOnInit() {
   }
 
-  onClick(){
+  onClick() {
     console.log('aedrfhaetjwrtyjwykjeytkeutk');
   }
 
-  onStuInfo(event){
+  onStuInfo(event) {
     console.log(event);
   }
-  getStudents(){
+  getStudents() {
     this.networkService.getCoursesMembers(this.varServiceService.getCourseID(),
-     this.varServiceService.getUser().token).then(async (result: any) => {
-      if (result.code === 200) {
-        this.students = result.data;
-        // this.presentAlert(result.msg);
-        // this.router.navigateByUrl('passport/login');
-        console.log(this.students[0]);
-      }
-      else {
-        // this.presentAlert(result.msg);
-        console.log(result);
-      }
-    });
+      this.varServiceService.getUser().token).then(async (result: any) => {
+        // console.log(this.students);
+        if (result.code === 200) {
+          this.students = result.data.userList;
+          this.totalExperience = result.data.totalExperience;
+          // this.presentAlert(result.msg);
+          // this.router.navigateByUrl('passport/login');
+          console.log(this.students[0]);
+        }
+        else {
+          // this.presentAlert(result.msg);
+          console.log(result);
+        }
+      });
   }
-  toMemberInfo(num){
-    this.router.navigate(['course/member-info'], { queryParams: this.students[num] });
+  toMemberInfo(num) {
+    const param = this.students[num];
+    param.totalExperience = this.totalExperience;
+    // this.students[num].fff = 232;
+    console.log(param);
+    this.router.navigate(['course/member-info'], { queryParams: param });
   }
 }

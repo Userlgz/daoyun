@@ -2,7 +2,7 @@
   <ion-toolbar color="primary">
     <ion-title>注册</ion-title>
     <ion-buttons slot="start">
-      <ion-back-button text="返回"></ion-back-button>
+      <ion-back-button text="返回" icon="chevron-back-outline"></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -15,31 +15,35 @@
     
     <ion-item>
       <ion-label position="fixed">学号/工号&nbsp;<ion-text color="danger">*</ion-text></ion-label>
-      <ion-input type="text" [(ngModel)]="signup.userId" placeholder="学号/工号"></ion-input>
+      <ion-input type="text" [(ngModel)]="signup.userId" placeholder="未设置"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="fixed">姓名&nbsp;<ion-text color="danger">*</ion-text></ion-label>
-      <ion-input [(ngModel)]="signup.name" placeholder="姓名"></ion-input>
+      <ion-input [(ngModel)]="signup.name" placeholder="未设置"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="fixed">手机号&nbsp;<ion-text color="danger">*</ion-text></ion-label>
-      <ion-input type="text" [(ngModel)]="signup.phone" placeholder="手机号"></ion-input>
+      <ion-input type="text" [(ngModel)]="signup.phone" placeholder="未设置"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="fixed">密码&nbsp;<ion-text color="danger">*</ion-text></ion-label>
-      <ion-input type="password" [(ngModel)]="signup.password" placeholder="密码"></ion-input>
+      <ion-input type="password" [(ngModel)]="signup.password" placeholder="未设置"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="fixed">确认密码&nbsp;<ion-text color="danger">*</ion-text></ion-label>
-      <ion-input type="password" [(ngModel)]="confirmPassword" placeholder="确认密码"></ion-input>
+      <ion-input type="password" [(ngModel)]="confirmPassword" placeholder="未设置"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>身份&nbsp;<ion-text color="danger">*</ion-text></ion-label>
       <ion-select value="3" (ionChange)="onChangepermission($event)" [(ngModel)]="signup.permission"
-        interface="action-sheet">
+        interface="action-sheet" placeholder="未设置">
         <ion-select-option value="2">教师</ion-select-option>
         <ion-select-option value="3">学生</ion-select-option>
       </ion-select>
+    </ion-item>
+    <ion-item detail [routerLink]="['/organization']" [queryParams]="{'fromUrl': '/passport/signup'}">
+      <ion-label>组织</ion-label>
+      <ion-note class="smallnote" >{{signup.school}} {{signup.college}}</ion-note>
     </ion-item>
     <ion-item>
       <ion-label position="fixed">验证码&nbsp;<ion-text color="danger">*</ion-text></ion-label>
@@ -47,8 +51,9 @@
       <ion-button expand="full" color="primary" (click)="getverifyCode()" disabled="{{verifyCode.disable}}">
         {{verifyCode.verifyCodeTips}}</ion-button>
     </ion-item>
+    
     <!-- <ion-item-divider></ion-item-divider> -->
-    <ion-item>
+    <!-- <ion-item>
       <ion-label>学校</ion-label>
       <ion-select (ionChange)="onChangeschool($event)"
         interface="action-sheet">
@@ -61,7 +66,7 @@
         interface="action-sheet" [disabled]="isCollegeShow">
         <ion-select-option [value]="item.name" *ngFor="let item of colleges">{{item.name}}</ion-select-option>
       </ion-select>
-    </ion-item>
+    </ion-item> -->
     
   </ion-list>
 </ion-content>

@@ -57,7 +57,7 @@ export class GesturePage implements OnInit, OnChanges {
     this.canvas.height = this.canvasWidth;
     const cxt = this.canvas.getContext('2d');
     // console.log(document.body.offsetWidth, ' ', this.R, ' ', this.canvas.width, ' ',
-      // this.canvas.height, ' ', this.OffsetX, ' ', this.OffsetY);
+    // this.canvas.height, ' ', this.OffsetX, ' ', this.OffsetY);
     //  /**
     //  *  每行3个圆
     //  *  OffsetX为canvas x方向内边距
@@ -140,7 +140,7 @@ export class GesturePage implements OnInit, OnChanges {
     const X = touches.clientX > this.canvasWidth ? this.canvasWidth : touches.clientX;
     //       // 此处应加上 九宫格解锁的实际高度   解决BUG
     const Y = (touches.clientY - rect.top) > this.canvasHeight ? this.canvasHeight : (touches.clientY - rect.top);
-    const angleRange = 170;
+    const angleRange = 160;
     this.ii += 1;
     for (let i = 0; i < this.circleArr.length; i++) {
       const currentPoint = this.circleArr[i];
@@ -293,7 +293,7 @@ export class GesturePage implements OnInit, OnChanges {
     canvas.addEventListener('touchend', function te(e) {
       //  const touches = e.touches[0];
 
-      // signThis.drawend = true;
+      signThis.drawend = true;
       if (signThis.drawend) {
         canvas.removeEventListener('touchend', te);
         console.log('removeEventListener touchend');
@@ -305,6 +305,9 @@ export class GesturePage implements OnInit, OnChanges {
       console.log(signThis.gesPass);
       cxt.clearRect(0, 0, signThis.canvasWidth, signThis.canvasHeight);
       signThis.Draw(cxt, signThis.circleArr, pwdArr, null);
+      if (pwdArr.length < 5) {
+
+      }
       // signThis.pwdResult.emit(pwdArr);
       // cxt.clearRect(0, 0, signThis.canvasWidth, signThis.canvasHeight);
       // signThis.Draw(cxt, signThis.circleArr, [], { X: 0, Y: 0 });

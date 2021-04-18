@@ -49,7 +49,7 @@ export class SignInfoPage implements OnInit {
     );
   }
   getSign() {
-    this.networkService.getSignofCourse(VarServiceService.courseID, this.userId,
+    this.networkService.getSignofUser(VarServiceService.courseID, this.userId,
       this.varServiceService.getUser().token).then(async (result: any) => {
         console.log(result);
         if (result.code === 200) {

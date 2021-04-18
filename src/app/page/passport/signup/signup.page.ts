@@ -1,5 +1,5 @@
 import { VarServiceService } from 'src/app/shared/service/var-service.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { User } from './../../../shared/class/user';
 import { NetworkService } from './../../../shared/service/network.service';
 import { Component, OnInit } from '@angular/core';
@@ -43,11 +43,20 @@ export class SignupPage implements OnInit {
   constructor(
     private alertController: AlertController, private networkService: NetworkService,
     private router: Router, private varServiceService: VarServiceService,
+    private activatedRoute: ActivatedRoute,
   ) {
     this.showSchool();
   }
 
   ngOnInit() {
+    this.activatedRoute.queryParams.subscribe(
+      (queryParams) => {
+        console.log(queryParams);
+        this.signup.school = queryParams.schoolname;
+        this.signup.college = queryParams.collegename;
+        // console.log(this.course);
+      }
+    );
   }
 
   getverifyCode() {

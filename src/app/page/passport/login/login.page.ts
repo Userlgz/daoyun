@@ -102,6 +102,6 @@ export class LoginPage implements OnInit {
     }
     onWeChat(){
         // this.router.navigateByUrl('organization');
-        this.router.navigate(['organization'], { queryParams: {fromUrl: 'passport/login'} });
+        // this.router.navigate(['organization'], { queryParams: {fromUrl: 'passport/login'} });
     }
 }

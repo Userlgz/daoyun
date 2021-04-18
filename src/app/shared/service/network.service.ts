@@ -106,7 +106,7 @@ export class NetworkService {
     };
     return this.get('/course/student/all', param, header);
   }
-  getSignofCourse(cid, uid, usertoken) {
+  getSignofUser(cid, uid, usertoken) {
     const header = {
       token: usertoken,
     };
@@ -115,6 +115,15 @@ export class NetworkService {
       userId: uid
     };
     return this.post('/sign/info/student', param, header);
+  }
+  getSignofCourse(cid, usertoken) {
+    const header = {
+      token: usertoken,
+    };
+    const param = {
+      courseId: 1,
+    };
+    return this.post('/sign/get/course', param, header);
   }
 }
 

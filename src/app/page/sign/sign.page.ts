@@ -1,8 +1,10 @@
+import { NetworkService } from './../../shared/service/network.service';
 import { Router } from '@angular/router';
 // import { Component, OnInit } from '@angular/core';
 import PatternLock from 'patternlock';
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { VarServiceService } from 'src/app/shared/service/var-service.service';
 // declare var PatternLock: any;
 declare var BMap;
 
@@ -20,77 +22,94 @@ export class SignPage implements OnInit {
   myIcon: any;
   longitude: any;
   latitude: any;
-  @ViewChild('map') map_container: ElementRef;
+  pText = '经纬度';
+  signRecords = [];
+  // "id": 1,
+  // "beginTime": "2021-04-08 16:29:17",
+  // "endTime": "2021-04-10 22:09:50",
+  // "type": 2,
+  // "courseId": 1,
+  // "passport": "123456",
+  // "longitude": 1.0,
+  // "latitude": 1.0,
+  // "parameter": {
+  //   "id": 2,
+  //   "experience": 2,
+  //   "distance": 100,
+  //   "limitTime": 9999,
+  //   "name": "手势签到"
+  // },
+  // "finish": true
+  // @ViewChild('map') map_container: ElementRef;
   constructor(
     private geolocation: Geolocation,
+    private networkService: NetworkService,
+    private varServiceService: VarServiceService,
+    private router: Router,
   ) {
-    // this.canvas = document.getElementById('lockCanvass');
-    // this.canvasWidth = document.body.offsetWidth;  //  网页可见区域宽
-    // this.canvas = document.getElementById('lockCanvass');
-    // this.currheight = this.getTop(this.canvas);
-    // this.currheight = document.getElementById('lockCanvass').offsetTop;
-    //
-    this.getLocation();
   }
   ngOnInit() {
-  }
-  ionViewDidLoad() {
-
-    //Amin: !Important:map_container shoud be called here, it can't be inited in constructor, if called in constructor
-
-    this.map = new BMap.Map('map_container');
-
-    this.map.centerAndZoom('上海', 13);
-
-    this.map.enableScrollWheelZoom(true);
-
-    this.myGeo = new BMap.Geocoder();
-
-    var geolocationControl = new BMap.GeolocationControl();
-
-    this.map.addControl(geolocationControl);
-
     this.getLocation();
+    this.getSign();
+  }
+  getSign() {
+    this.networkService.getSignofCourse(VarServiceService.courseID,
+      this.varServiceService.getUser().token).then(async (result: any) => {
+        console.log(result);
+        if (result.code === 200) {
+          this.signRecords = result.data;
+        }
+      });
+  }
+  onOneClick() {
 
   }
+  onLimitTime() {
 
+  }
+  onGesture() {
+    this.router.navigateByUrl('sign/gesture');
+  }
+  onManual() {
+
+  }
   getLocation() {
 
     this.geolocation.getCurrentPosition().then((resp) => {
 
-      if (resp && resp.coords) {
+      // if (resp && resp.coords) {
 
-        let locationPoint = new BMap.Point(resp.coords.longitude, resp.coords.latitude);
+      //   let locationPoint = new BMap.Point(resp.coords.longitude, resp.coords.latitude);
 
-        let convertor = new BMap.Convertor();
+      //   let convertor = new BMap.Convertor();
 
-        let pointArr = [];
+      //   let pointArr = [];
 
-        pointArr.push(locationPoint);
+      //   pointArr.push(locationPoint);
 
-        convertor.translate(pointArr, 1, 5, (data) => {
+      //   convertor.translate(pointArr, 1, 5, (data) => {
 
-          if (data.status === 0) {
+      //     if (data.status === 0) {
 
-            let marker = new BMap.Marker(data.points[0], { icon: this.myIcon });
+      //       let marker = new BMap.Marker(data.points[0], { icon: this.myIcon });
 
-            this.map.panTo(data.points[0]);
+      //       this.map.panTo(data.points[0]);
 
-            marker.setPosition(data.points[0]);
+      //       marker.setPosition(data.points[0]);
 
-            this.map.addOverlay(marker);
+      //       this.map.addOverlay(marker);
 
-          }
+      //     }
 
-        });
+      //   });
 
-        this.map.centerAndZoom(locationPoint, 13);
+      //   this.map.centerAndZoom(locationPoint, 13);
+      this.pText = 'GPS定位：您的位置是 ' + resp.coords.longitude + ',' + resp.coords.latitude;
+      console.log('GPS定位：您的位置是 ' + resp.coords.longitude + ',' + resp.coords.latitude);
+      this.longitude = resp.coords.longitude;
+      this.latitude = resp.coords.latitude;
 
-        console.log('GPS定位：您的位置是 ' + resp.coords.longitude + ',' + resp.coords.latitude);
-        this.longitude = resp.coords.longitude;
-        this.latitude = resp.coords.latitude;
-
-      }
+      // }
 
     }).catch(e => {
 
