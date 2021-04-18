@@ -73,9 +73,9 @@ export class CreateCoursePage implements OnInit {
     else if (this.course.classNumber === null) {
       this.varServiceService.presentToast('请填写班级');
     }
-    else if (isNaN(this.course.classNumber)) {
-      this.varServiceService.presentToast('班级请填写为数字');
-    }
+    // else if (isNaN(this.course.classNumber)) {
+    //   this.varServiceService.presentToast('班级请填写为数字');
+    // }
     else if (this.course.term === null) {
       this.varServiceService.presentToast('请填写学期');
     }

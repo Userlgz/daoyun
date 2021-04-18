@@ -21,7 +21,7 @@
       </ion-item>
       <ion-item>
         <ion-label>班级</ion-label>
-        <ion-input type="number" [(ngModel)]="course.classNumber" placeholder="未设置"></ion-input>
+        <ion-input type="text" [(ngModel)]="course.classNumber" placeholder="未设置"></ion-input>
       </ion-item>
       <ion-item  (click)="pickerFn(2, termOptions[0].length, termOptions, '学期')" detail>
         <ion-label>学期</ion-label>
