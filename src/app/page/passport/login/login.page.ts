@@ -20,11 +20,21 @@ export class LoginPage implements OnInit {
     code = 0;
     user: User;
     permission: Permission;
+    verifyCode: any = {
+        verifyCodeTips: '获取验证码',
+        code: '',
+        codeLength: 4,
+        countdown: 60,
+        disable: false,
+        fail: false// 验证失败
+    };
+    isVerify = false;
+    loginResult: any;
 
     constructor(
         private router: Router, private network: NetworkService, private toastCtrl: ToastController,
         private localStorageService: LocalStorageService, private alertCtrl: AlertController,
-        private varServiceService: VarServiceService,
+        private varServiceService: VarServiceService, private networkService: NetworkService
     ) { }
 
     ngOnInit() {
@@ -48,7 +58,14 @@ export class LoginPage implements OnInit {
         } else {
             // 密码不对时提示错误
             this.varServiceService.presentToast('登录');
-            this.network.login(this.username, this.password).then(async (result: any) => {
+            if (this.isVerify) {
+                this.loginResult = this.network.loginByCode(this.username, this.verifyCode.code);
+            }
+            else {
+                this.loginResult = this.network.login(this.username, this.password);
+            }
+
+            this.loginResult.then(async (result: any) => {
                 this.varServiceService.presentToast('登录中');
                 console.log(result);
                 this.code = result.code;
@@ -100,8 +117,37 @@ export class LoginPage implements OnInit {
         console.log('forgotpassword');
         this.router.navigateByUrl('/passport/forgotpassword');
     }
-    onWeChat(){
+    onWeChat() {
         // this.router.navigateByUrl('organization');
         // this.router.navigate(['organization'], { queryParams: {fromUrl: 'passport/login'} });
+    }
+    getverifyCode() {
+        if (this.username === '') {
+            this.varServiceService.presentToast('手机号不能为空!');
+        }
+        else {
+            this.networkService.getverifyCode(this.username, 'login');
+            this.verifyCode.disable = true;
+            this.settime();
+        }
+    }
+    settime() {
+        if (this.verifyCode.countdown === 1) {
+            this.verifyCode.countdown = 60;
+            this.verifyCode.verifyCodeTips = '重新获取';
+            this.verifyCode.disable = true;
+            return;
+        } else {
+            this.verifyCode.countdown--;
+        }
+
+        this.verifyCode.verifyCodeTips = '重新获取(' + this.verifyCode.countdown + ')';
+        setTimeout(() => {
+            this.verifyCode.verifyCodeTips = '重新获取(' + this.verifyCode.countdown + ')';
+            this.settime();
+        }, 1000);
+    }
+    onVerifyCodeLogin() {
+        this.isVerify = !this.isVerify;
     }
 }

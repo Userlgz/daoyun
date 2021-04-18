@@ -17,9 +17,15 @@
           <ion-label position="fixed">账号</ion-label>
           <ion-input name="username" type="text" placeholder="手机号" [(ngModel)]="username"></ion-input>
         </ion-item>
-        <ion-item>
+        <ion-item *ngIf="!isVerify">
           <ion-label position="fixed">密码</ion-label>
           <ion-input name="password" type="password" placeholder="登录密码" [(ngModel)]="password"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="isVerify">
+          <ion-label position="fixed">验证码</ion-label>
+          <ion-input type="text" [(ngModel)]="verifyCode.code" name="code"></ion-input>
+          <ion-button expand="full" color="primary" (click)="getverifyCode()" disabled="{{verifyCode.disable}}">
+            {{verifyCode.verifyCodeTips}}</ion-button>
         </ion-item>
         <ion-item lines="none"></ion-item>
       </ion-list>
@@ -34,8 +40,12 @@
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col>
+          <ion-col style="text-align: left;">
             <ion-button fill="clear" size="small" (click)="onForgotPassword()">忘记密码？</ion-button>
+          </ion-col>
+          <ion-col style="text-align: right;">
+            <ion-button fill="clear" size="small" (click)="onVerifyCodeLogin()" *ngIf="!isVerify">验证码登录</ion-button>
+            <ion-button fill="clear" size="small" (click)="onVerifyCodeLogin()" *ngIf="isVerify">密码登录</ion-button>
           </ion-col>
         </ion-row>
         <!-- <ion-row class="ion-text-center">

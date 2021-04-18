@@ -40,6 +40,13 @@ export class NetworkService {
     };
     return this.post('/user/login', param);
   }
+  loginByCode(userphone: string, ucode) {
+    const param = {
+      phone: userphone,
+      code: ucode,
+    };
+    return this.post('/user/login/code', param);
+  }
   signup(signup: any) {
     return this.post('/user/register', signup);
   }
