@@ -100,11 +100,12 @@ export class MePage implements OnInit {
   //  点击忘记密码时调用
   openForgotPassword() {
     //  进入找回密码页面
-    this.router.navigate(['me/change-password'], {
-      queryParams: {
-        page: 0
-      }
-    });
+    this.router.navigateByUrl('me/change-password');
+    // this.router.navigate(['me/change-password'], {
+    //   queryParams: {
+    //     page: 0
+    //   }
+    // });
   }
 
 }

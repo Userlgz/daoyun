@@ -69,46 +69,47 @@ export class HomePage implements OnInit {
 
   getJoinCourses() {
     console.log('getJoinCourses');
-    // if (this.joinCourses === null) {
-    this.networkService.getJoinCourses(this.varServiceService.getUser().token).then(async (result: any) => {
-      if (result.code === 200) {
-        //  this.presentAlert(result.msg);
-        //  this.router.navigateByUrl('passport/login');
-        this.joinCourses = result.data;
-        this.courses = this.joinCourses;
-        console.log(result);
-      }
-      else {
-        //  this.presentAlert(result.msg);
-        console.log(result);
-      }
-    });
-    // }
-    // else {
-    //   this.courses = this.joinCourses;
-    // }
+    if (this.joinCourses === null) {
+      this.networkService.getJoinCourses(this.varServiceService.getUser().token).then(async (result: any) => {
+        if (result.code === 200) {
+          //  this.presentAlert(result.msg);
+          //  this.router.navigateByUrl('passport/login');
+          this.joinCourses = result.data;
+          this.courses = this.joinCourses;
+          // this.varServiceService.presentToast('加载成功');
+        }
+        else {
+          this.varServiceService.presentToast(result.msg);
+        }
+      });
+    }
+    else {
+      this.courses = this.joinCourses;
+    }
   }
 
   getCreateCourses() {
     console.log('getCreateCourses');
-    // if (this.createCourses === null) {
-    this.networkService.getCreateCourses(this.varServiceService.getUser().token).then(async (result: any) => {
-      if (result.code === 200) {
-        //  this.presentAlert(result.msg);
-        //  this.router.navigateByUrl('passport/login');
-        this.createCourses = result.data;
-        this.courses = this.createCourses;
-        console.log(result);
-      }
-      else {
-        //  this.presentAlert(result.msg);
-        console.log(result);
-      }
-    });
-    // }
-    // else {
-    //   this.courses = this.createCourses;
-    // }
+    if (this.createCourses === null) {
+      this.networkService.getCreateCourses(this.varServiceService.getUser().token).then(async (result: any) => {
+        if (result.code === 200) {
+          //  this.presentAlert(result.msg);
+          //  this.router.navigateByUrl('passport/login');
+          this.createCourses = result.data;
+          this.courses = this.createCourses;
+          // console.log(result);
+          // this.varServiceService.presentToast('加载成功');
+        }
+        else {
+          this.varServiceService.presentToast(result.msg);
+          // this.presentAlert(result.msg);
+          // console.log(result);
+        }
+      });
+    }
+    else {
+      this.courses = this.createCourses;
+    }
   }
 
   onSign(courseId) {
@@ -126,6 +127,33 @@ export class HomePage implements OnInit {
       backdropDismiss: true
     });
     await popover.present();
+  }
+
+  refreshData(event) {
+    if (this.isJoin) {
+      new Promise((resolve, reject) => {
+        console.log('refreshData', 'join');
+        this.joinCourses = null;
+        this.createCourses = null;
+        this.getJoinCourses();
+        resolve('succeed');
+        reject('failure');
+      }).then(() => {
+        event.target.complete();
+      });
+    }
+    else {
+      new Promise((resolve, reject) => {
+        console.log('refreshData', 'create');
+        this.joinCourses = null;
+        this.createCourses = null;
+        this.getCreateCourses();
+        resolve('succeed');
+        reject('failure');
+      }).then(() => {
+        event.target.complete();
+      });
+    }
   }
 
   // async showMenu() {

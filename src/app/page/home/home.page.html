@@ -12,20 +12,21 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
-</ion-header>
-
-<ion-content>
-  <ion-refresher slot="fixed" (ionRefresh)="refreshData($event)" >
-    <ion-refresher-content pullingicon="arrow-down" pullingText="下拉刷新" refreshingSpinner="circles"
-      refreshingText="加载中...">
-    </ion-refresher-content>
-  </ion-refresher>
   <ion-toolbar color="primary" style="padding-top: 15px; margin-bottom: 10px;">
     <ion-searchbar></ion-searchbar>
     <ion-buttons slot="end">
       <ion-button fill="outline" size="small">调序</ion-button>
     </ion-buttons>
   </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  
+  <ion-refresher slot="fixed" (ionRefresh)="refreshData($event)" >
+    <ion-refresher-content pullingicon="arrow-down" pullingText="下拉刷新" refreshingSpinner="circles"
+      refreshingText="加载中...">
+    </ion-refresher-content>
+  </ion-refresher>
   <ion-list>
     <ion-item *ngFor="let course of courses">
       <ion-thumbnail slot="start" (click)="toCourse(course)">

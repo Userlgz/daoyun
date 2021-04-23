@@ -55,15 +55,15 @@ export class VarServiceService {
     if (this.user === null) {
       this.user = this.localStorageService.get('User');
     }
-    console.log(this.user);
+    // console.log(this.user);
     return this.user;
   }
   getPermission() {
     if (this.permission === null) {
       this.permission = this.localStorageService.get('Permission');
     }
-    console.log(this.user);
-    return this.user;
+    // console.log(this.user);
+    return this.permission;
   }
   async presentAlert(messages) {
     const alert = await this.alertController.create({

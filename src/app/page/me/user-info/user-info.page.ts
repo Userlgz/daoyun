@@ -1,6 +1,6 @@
 import { NetworkService } from './../../../shared/service/network.service';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/shared/service/local-storage.service';
 import { PassportServiceService } from 'src/app/shared/service/passport-service.service';
 import { VarServiceService } from 'src/app/shared/service/var-service.service';
@@ -18,7 +18,6 @@ export class UserInfoPage implements OnInit {
 
   user = {
     phone: '',
-    permission: 3,
     name: '',
     birth: '',
     sex: '',
@@ -41,6 +40,7 @@ export class UserInfoPage implements OnInit {
     private passportService: PassportServiceService,
     private networkService: NetworkService,
     private varServiceService: VarServiceService,
+    private activatedRoute: ActivatedRoute,
   ) {
     this.showSchool();
   }
@@ -48,12 +48,21 @@ export class UserInfoPage implements OnInit {
   ngOnInit() {
     this.user = this.passportService.getUser();
     console.log(this.user);
-    if (this.user.permission === 2) {
-      this.identity = '老师';
-    }
-    else if (this.user.permission === 3) {
-      this.identity = '学生';
-    }
+    // if (this.user.permission === 2) {
+    //   this.identity = '老师';
+    // }
+    // else if (this.user.permission === 3) {
+    //   this.identity = '学生';
+    // }
+    this.identity = this.varServiceService.getPermission().name;
+    this.activatedRoute.queryParams.subscribe(
+      (queryParams) => {
+        console.log(queryParams);
+        this.user.school = queryParams.schoolname;
+        this.user.college = queryParams.collegename;
+        // console.log(this.course);
+      }
+    );
   }
 
   onEdit() {

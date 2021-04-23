@@ -73,6 +73,9 @@ export class SignPage implements OnInit {
   onManual() {
 
   }
+  toSignInfo() {
+
+  }
   getLocation() {
 
     this.geolocation.getCurrentPosition().then((resp) => {

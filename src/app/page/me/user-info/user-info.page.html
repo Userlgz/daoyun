@@ -1,5 +1,5 @@
-<ion-header no-border>
-  <ion-toolbar>
+<ion-header>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-back-button text="返回" icon="chevron-back-outline"></ion-back-button>
     </ion-buttons>
@@ -19,8 +19,9 @@
         <ion-note slot="end" class="font-size">{{user.name}}</ion-note>
       </ion-item>
       <ion-item>
-        <ion-label *ngIf="isStudent">学号</ion-label>
-        <ion-label *ngIf="!isStudent">工号</ion-label>
+        <!-- <ion-label *ngIf="isStudent">学号</ion-label>
+        <ion-label *ngIf="!isStudent">工号</ion-label> -->
+        <ion-label>学号/工号</ion-label>
         <ion-note slot="end" >{{user.userId}}</ion-note>
       </ion-item>
       <ion-item>
@@ -34,13 +35,13 @@
     <!-- </ion-list>
     <ion-list inset="true" *ngIf="isStudent"> -->
       <ion-item>
-        <ion-label>学校</ion-label>
-        <ion-note slot="end" class="font-size">{{user.school}}</ion-note>
+        <ion-label>组织</ion-label>
+        <ion-note slot="end" class="font-size">{{user.school}} {{user.college}}</ion-note>
       </ion-item>
-      <ion-item>
+      <!-- <ion-item>
         <ion-label>学院</ion-label>
         <ion-note slot="end" class="font-size">{{user.college}}</ion-note>
-      </ion-item>
+      </ion-item> -->
       <!-- <ion-item>
         <ion-label>班级</ion-label>
         <ion-note slot="end" class="font-size">{{user.Class}}</ion-note>
@@ -55,8 +56,9 @@
         <ion-note slot="end" class="font-size">{{user.name}}</ion-note>
       </ion-item>
       <ion-item>
-        <ion-label *ngIf="isStudent">学号</ion-label>
-        <ion-label *ngIf="!isStudent">工号</ion-label>
+        <!-- <ion-label *ngIf="isStudent">学号</ion-label>
+        <ion-label *ngIf="!isStudent">工号</ion-label> -->
+        <ion-label>学号/工号</ion-label>
         <ion-note slot="end" class="font-size">{{user.userId}}</ion-note>
       </ion-item>
       <ion-item>
@@ -69,7 +71,11 @@
       </ion-item>
     <!-- </ion-list>
     <ion-list inset="true" *ngIf="isStudent"> -->
-      <ion-item>
+      <ion-item detail [routerLink]="['/organization']" [queryParams]="{'fromUrl': '/me/user-info'}">
+        <ion-label>组织&nbsp;<ion-text color="danger">*</ion-text></ion-label>
+        <ion-note class="smallnote" >{{user.school}} {{user.college}}</ion-note>
+      </ion-item>
+      <!-- <ion-item>
         <ion-label>学校&nbsp;<ion-text color="danger">*</ion-text></ion-label>
         <ion-select (ionChange)='onChangeschool($event)'
           interface="action-sheet">
@@ -82,7 +88,7 @@
           interface="action-sheet" [disabled]="isCollegeShow">
           <ion-select-option [value]='item.name' *ngFor="let item of colleges">{{item.name}}</ion-select-option>
         </ion-select>
-      </ion-item>
+      </ion-item> -->
       <!-- <ion-item>
         <ion-label class="label-padding">学校</ion-label>
         <ion-input slot="end" [(ngModel)]="user.School" class="input-label"></ion-input>

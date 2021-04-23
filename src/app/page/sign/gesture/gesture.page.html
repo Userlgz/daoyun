@@ -1,25 +1,26 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-back-button text="返回" icon="chevron-back-outline"></ion-back-button>
     </ion-buttons>
-    <ion-title>gesture</ion-title>
+    <ion-title>手势签到</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-progress-bar type="indeterminate" color="light" *ngIf="hasPost"></ion-progress-bar>
-  <div class="div3">
-    <form #postForm="ngForm" (ngSubmit)="onSubmit()">
-      <ion-item>
-        <!-- <app-gesture></app-gesture> -->
-        
-      </ion-item>
-      <!-- <ion-button class="ion-margin" shape='round' color="success" expand="block" mode='ios' type="submit" [disabled]="postForm.invalid">
-        开始签到
-      </ion-button> -->
-    </form>
-  </div>
+  <!-- <ion-progress-bar type="indeterminate" color="light" *ngIf="hasPost"></ion-progress-bar> -->
+
+    <ion-text style="text-align: center;">
+      <h4 style="width: 80%; margin: 5% auto 0 auto; padding-top: 10%;">绘制手势(4个点以上)</h4>
+    </ion-text>
+
   <!-- <app-gesture></app-gesture> -->
   <canvas id="lockCanvass" (click)="onClick($event)"></canvas>
 </ion-content>
+<ion-footer style="padding-bottom: 5%; height:10%; ">
+  <ion-buttons style="width: 100%; height:100%; margin: auto; place-content: center;" expand="full">
+    <ion-button color="primary" style="width: 50%; height: 100%; border-right-style: inset;" (click)="reset()">重设
+    </ion-button>
+    <ion-button color="primary" style="width: 50%; height: 100%;" (click)="submit()">提交</ion-button>
+  </ion-buttons>
+</ion-footer>

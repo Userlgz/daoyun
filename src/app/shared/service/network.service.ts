@@ -11,8 +11,8 @@ export class NetworkService {
 
   post(url: string, param: any = null, header: any = null) {
     const posturl = this.rooturl + url;
-    console.log(param);
-    console.log(header);
+    // console.log(param);
+    // console.log(header);
     return new Promise((reslove, reject) => {
       this.http.post(posturl, {}, { headers: header, params: param }).subscribe((response) => {
         reslove(response);
@@ -23,8 +23,8 @@ export class NetworkService {
   }
   get(url: string, param: any = null, header: any = null) {
     const posturl = this.rooturl + url;
-    console.log(param);
-    console.log(header);
+    // console.log(param);
+    // console.log(header);
     return new Promise((reslove, reject) => {
       this.http.get(posturl, { headers: header, params: param }).subscribe((response) => {
         reslove(response);
@@ -131,6 +131,15 @@ export class NetworkService {
       courseId: 1,
     };
     return this.post('/sign/get/course', param, header);
+  }
+  getSignById(sid, usertoken) {
+    const header = {
+      token: usertoken,
+    };
+    const param = {
+      signId: 1,
+    };
+    return this.post('/sign/get/student', param, header);
   }
 }
 

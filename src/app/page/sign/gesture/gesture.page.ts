@@ -51,13 +51,17 @@ export class GesturePage implements OnInit, OnChanges {
     this.canvas = document.getElementById('lockCanvass');
     // this.currheight = this.getTop(this.canvas);
 
-    this.canvasWidth = 375; // document.body.offsetWidth;  //  网页可见区域宽
+    this.canvasWidth = document.body.offsetWidth;  //  网页可见区域宽
+
+    this.OffsetX = this.canvasWidth * 0.15;
+    this.OffsetY = this.canvasWidth * 0.15;
+    this.R = this.canvasWidth * 0.085;
     this.canvasHeight = this.canvasWidth;
     this.canvas.width = this.canvasWidth;
     this.canvas.height = this.canvasWidth;
     const cxt = this.canvas.getContext('2d');
-    // console.log(document.body.offsetWidth, ' ', this.R, ' ', this.canvas.width, ' ',
-    // this.canvas.height, ' ', this.OffsetX, ' ', this.OffsetY);
+    console.log('param: ', document.body.offsetWidth, ' ', this.R, ' ', this.canvas.width, ' ',
+      this.canvas.height, ' ', this.OffsetX, ' ', this.OffsetY);
     //  /**
     //  *  每行3个圆
     //  *  OffsetX为canvas x方向内边距
@@ -76,9 +80,8 @@ export class GesturePage implements OnInit, OnChanges {
 
   }
   onClick(event) {
-
-
   }
+
   createCirclePoint(diffX, diffY) {
     for (let row = 0; row < 3; row++) {
       for (let col = 0; col < 3; col++) {
@@ -93,6 +96,7 @@ export class GesturePage implements OnInit, OnChanges {
 
 
   }
+
   distanceOfPoint2Line(x, y, x1, y1, x2, y2) {
 
     const A = x - x1;
@@ -125,6 +129,7 @@ export class GesturePage implements OnInit, OnChanges {
     const dy = y - yy;
     return Math.sqrt(dx * dx + dy * dy);
   }
+
   getAngle(x1, y1, x2, y2) {
     const dot = x1 * x2 + y1 * y2;
     const det = x1 * y2 - y1 * x2;
@@ -132,6 +137,7 @@ export class GesturePage implements OnInit, OnChanges {
     // return (angle + 360) % 180;
     return Math.abs(angle);
   }
+
   public getSelectPwd(touches, pwdArr, rect) {
     const lastPointIndex = pwdArr[pwdArr.length - 1];
     const lastPoint = this.circleArr[lastPointIndex];
@@ -184,6 +190,7 @@ export class GesturePage implements OnInit, OnChanges {
 
 
   }
+
   public startgetSelectPwd(touches, pwdArr, rect) {
     for (let i = 0; i < this.circleArr.length; i++) {
       const currentPoint = this.circleArr[i];
@@ -250,22 +257,22 @@ export class GesturePage implements OnInit, OnChanges {
 
   }
 
-
-
   /**
    * 给画布绑定事件
    */
   private bindEvent(canvas, cxt) {
 
     const signThis = this;
-    const pwdArr = [];
+    let pwdArr = [];
     canvas.addEventListener('touchstart', function ts(e) {
       if (signThis.drawend) {
         canvas.removeEventListener('touchstart', ts);
         console.log('removeEventListener touchstart');
       }
-      const rect = e.currentTarget.getBoundingClientRect();
-      signThis.startgetSelectPwd(e.touches[0], pwdArr, rect);
+      else {
+        const rect = e.currentTarget.getBoundingClientRect();
+        signThis.startgetSelectPwd(e.touches[0], pwdArr, rect);
+      }
 
     }, (error) => {
 
@@ -292,31 +299,41 @@ export class GesturePage implements OnInit, OnChanges {
     }, false);
     canvas.addEventListener('touchend', function te(e) {
       //  const touches = e.touches[0];
-
-      signThis.drawend = true;
       if (signThis.drawend) {
         canvas.removeEventListener('touchend', te);
         console.log('removeEventListener touchend');
       }
-      for (const i of pwdArr) {
-        signThis.gesPass += String(i + 1);
+      if (pwdArr.length >= 4) {
+        signThis.drawend = true;
+        canvas.removeEventListener('touchend', te);
+        console.log('removeEventListener touchend');
+        cxt.clearRect(0, 0, signThis.canvasWidth, signThis.canvasHeight);
+        signThis.Draw(cxt, signThis.circleArr, pwdArr, null);
+        for (const i of pwdArr) {
+          signThis.gesPass += String(i + 1);
+        }
+      }
+      else {
+        cxt.clearRect(0, 0, signThis.canvasWidth, signThis.canvasHeight);
+        signThis.Draw(cxt, signThis.circleArr, [], { X: 0, Y: 0 });
+        signThis.gesPass = '';
+        pwdArr = [];
       }
       console.log(pwdArr);
       console.log(signThis.gesPass);
-      cxt.clearRect(0, 0, signThis.canvasWidth, signThis.canvasHeight);
-      signThis.Draw(cxt, signThis.circleArr, pwdArr, null);
-      if (pwdArr.length < 5) {
-
-      }
-      // signThis.pwdResult.emit(pwdArr);
-      // cxt.clearRect(0, 0, signThis.canvasWidth, signThis.canvasHeight);
-      // signThis.Draw(cxt, signThis.circleArr, [], { X: 0, Y: 0 });
-      // pwdArr = [];
-      // signThis.gesPass = '';
     }, false);
     //
     //
   }
-
+  reset(){
+    this.drawend = false;
+    this.gesPass = '';
+    const cxt = this.canvas.getContext('2d');
+    // this.createCirclePoint(this.xSpace, this.ySpace);
+    this.bindEvent(this.canvas, cxt);
+    //  CW=2*offsetX+R*2*3+2*X
+    cxt.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+    this.Draw(cxt, this.circleArr, [], null);
+  }
 
 }

@@ -41,7 +41,7 @@ export class LoginPage implements OnInit {
     }
 
     // 点击登录按钮时调用
-    async onLogin(form: NgForm) {
+    async onLogin() {
         // 账号为空时提示输入账号
         if (this.username === '') {
             const toast = await this.toastCtrl.create({
@@ -57,7 +57,6 @@ export class LoginPage implements OnInit {
             toast.present();
         } else {
             // 密码不对时提示错误
-            this.varServiceService.presentToast('登录');
             if (this.isVerify) {
                 this.loginResult = this.network.loginByCode(this.username, this.verifyCode.code);
             }
@@ -66,7 +65,6 @@ export class LoginPage implements OnInit {
             }
 
             this.loginResult.then(async (result: any) => {
-                this.varServiceService.presentToast('登录中');
                 console.log(result);
                 this.code = result.code;
                 console.log(this.code);
@@ -84,7 +82,7 @@ export class LoginPage implements OnInit {
                     this.router.navigateByUrl('tabs');
                 }
                 else {
-                    this.varServiceService.presentToast('登录错误');
+                    // this.varServiceService.presentToast('登录错误');
                     this.varServiceService.presentToast(result.msg);
                     const alert = await this.alertCtrl.create({
                         header: '提示',
