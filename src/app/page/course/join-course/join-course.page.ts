@@ -53,6 +53,8 @@ export class JoinCoursePage implements OnInit {
       else {
         this.varServiceService.presentAlert(result.msg);
       }
+    }).catch((error) => {
+      this.varServiceService.presentToast('网络出错');
     });
   }
 
@@ -69,6 +71,8 @@ export class JoinCoursePage implements OnInit {
       else {
         this.varServiceService.presentAlert(result.msg);
       }
+    }).catch((error) => {
+      this.varServiceService.presentToast('网络出错');
     });
   }
 }

@@ -24,6 +24,7 @@ export class MembersPage implements OnInit {
     private router: Router
   ) {
     this.courseName = varServiceService.getCourseName();
+    this.courseId = varServiceService.getCourseID();
     this.getStudents();
   }
 
@@ -52,6 +53,8 @@ export class MembersPage implements OnInit {
           // this.presentAlert(result.msg);
           console.log(result);
         }
+      }).catch((error) => {
+        this.varServiceService.presentToast('网络出错');
       });
   }
   toMemberInfo(num) {
@@ -60,5 +63,11 @@ export class MembersPage implements OnInit {
     // this.students[num].fff = 232;
     console.log(param);
     this.router.navigate(['course/member-info'], { queryParams: param });
+  }
+  onSign(){
+    console.log(this.courseId);
+    // this.varServiceService.setCourseName(courseId);
+    // this.varServiceService.setCourseID(courseId);
+    this.router.navigateByUrl('sign');
   }
 }

@@ -31,7 +31,7 @@ export class StartAppGuard implements CanActivate {
       const loginTime = this.localStorageService.get('loginTime', '1995-10-20 00:00:00').replace(/-/g, '/');
       const sTime = new Date(current); // 开始时间
       const eTime = new Date(loginTime); // 结束时间
-      const differ: any = ((sTime.getTime() - eTime.getTime()) / 1000 / 60 ).toFixed(0);  // 小时数
+      const differ: any = ((sTime.getTime() - eTime.getTime()) / 1000 / 60 / 60 ).toFixed(0);  // 小时数
       console.log(sTime, eTime, differ);
       if ( differ - 5 > 0) {
         this.router.navigateByUrl('passport/login');

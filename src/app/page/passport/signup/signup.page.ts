@@ -40,6 +40,8 @@ export class SignupPage implements OnInit {
 
   isCollegeShow = true;
 
+  isQuick = false;
+
   constructor(
     private alertController: AlertController, private networkService: NetworkService,
     private router: Router, private varServiceService: VarServiceService,
@@ -63,7 +65,11 @@ export class SignupPage implements OnInit {
       this.varServiceService.presentToast('手机号不能为空!');
     }
     else {
-      this.networkService.getverifyCode(this.signup.phone, 'register');
+      this.networkService.getverifyCode(this.signup.phone, 'register').then(async (result: any) => {
+        this.varServiceService.presentToast(result.msg);
+      }).catch((error) => {
+        this.varServiceService.presentToast('网络出错');
+      });
       this.verifyCode.disable = true;
       this.settime();
     }
@@ -118,6 +124,8 @@ export class SignupPage implements OnInit {
         else {
           this.varServiceService.presentToast(result.msg);
         }
+      }).catch((error) => {
+        this.varServiceService.presentToast('网络出错');
       });
     }
   }

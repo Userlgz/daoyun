@@ -25,7 +25,7 @@
       </ion-item>
       <ion-item  (click)="pickerFn(2, termOptions[0].length, termOptions, '学期')" detail>
         <ion-label>学期</ion-label>
-        <ion-note slot="end">{{course.term}}</ion-note>
+        <ion-note class="smallnote" slot="end">{{course.term}}</ion-note>
         <!-- <ion-picker-controller>学期</ion-picker-controller> -->
         <!-- <ion-input type="text" [(ngModel)]="course.term" placeholder="未设置"></ion-input> -->
       </ion-item>
@@ -39,7 +39,7 @@
     <ion-item-group *ngIf="detail"> <!-- style="margin: 0% 3% 1% 3%;"-->
       <ion-item detail [routerLink]="['/organization']" [queryParams]="{'fromUrl': '/course/create-course'}">
         <ion-label>学校学院</ion-label>
-        <ion-note class="smallnote" >{{course.school}} {{course.college}}</ion-note>
+        <ion-note class="smallnote" slot="end">{{course.school}} {{course.college}}</ion-note>
       </ion-item>
       <!-- <ion-item>
         <ion-label>学院</ion-label>
@@ -50,11 +50,11 @@
       </ion-item> -->
       <ion-item>
         <ion-label class="biglabel" position="stacked">教学安排</ion-label>
-        <ion-textarea [(ngModel)]="course.teach_arrange"></ion-textarea>
+        <ion-textarea [(ngModel)]="course.teachArrange" placeholder="无"></ion-textarea>
       </ion-item>
       <ion-item>
         <ion-label class="biglabel" position="stacked">考试安排</ion-label>
-        <ion-textarea [(ngModel)]="course.test_arrange"></ion-textarea>
+        <ion-textarea [(ngModel)]="course.testArrange" placeholder="无"></ion-textarea>
       </ion-item>
       <ion-item hidden=true></ion-item>
     </ion-item-group>

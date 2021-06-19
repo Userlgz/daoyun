@@ -14,10 +14,15 @@ export class VarServiceService {
   static courseName = '';
   static courseID = '';
 
+  static course: any;
+
+  static startSign = false;
 
   private user: User = null;
   private permission: Permission = null;
 
+  private userRefresh = true;
+  private permRefresh = true;
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -49,21 +54,38 @@ export class VarServiceService {
   }
   setCourseID(id) {
     VarServiceService.courseID = id;
-    console.log(VarServiceService.courseID);
+    // console.log(VarServiceService.courseID);
   }
+  // setCourse(course) {
+  //   this.course = course;
+    // console.log(VarServiceService.courseID);
+  // }
+  // getCourse() {
+  //   return this.course;
+    // console.log(VarServiceService.courseID);
+  // }
   getUser() {
-    if (this.user === null) {
-      this.user = this.localStorageService.get('User');
-    }
+    // if (this.userRefresh || this.user === null) {
+    this.user = this.localStorageService.get('User');
+    // this.userRefresh = false;
+    // }
+    // console.log('verservice');
     // console.log(this.user);
     return this.user;
   }
   getPermission() {
-    if (this.permission === null) {
-      this.permission = this.localStorageService.get('Permission');
-    }
+    // if (this.permRefresh || this.permission === null) {
+    this.permission = this.localStorageService.get('Permission');
+    //   this.permRefresh = false;
+    // }
     // console.log(this.user);
     return this.permission;
+  }
+  reset() {
+    this.user = null;
+    this.permission = null;
+    this.userRefresh = true;
+    this.permRefresh = true;
   }
   async presentAlert(messages) {
     const alert = await this.alertController.create({

@@ -1,3 +1,4 @@
+import { CourseInfoPageModule } from './../../course/course-info/course-info.module';
 import { VarServiceService } from 'src/app/shared/service/var-service.service';
 import { Permission } from './../../../shared/class/permission';
 import { User } from './../../../shared/class/user';
@@ -7,6 +8,8 @@ import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { AlertController, ToastController } from '@ionic/angular';
 import { LocalStorageService } from 'src/app/shared/service/local-storage.service';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { WebView } from '@ionic-native/ionic-webview/ngx';
 
 @Component({
     selector: 'app-login',
@@ -30,11 +33,13 @@ export class LoginPage implements OnInit {
     };
     isVerify = false;
     loginResult: any;
+    appbrow = '123456';
 
     constructor(
         private router: Router, private network: NetworkService, private toastCtrl: ToastController,
         private localStorageService: LocalStorageService, private alertCtrl: AlertController,
-        private varServiceService: VarServiceService, private networkService: NetworkService
+        private varServiceService: VarServiceService, private networkService: NetworkService,
+        private iab: InAppBrowser, private webview: WebView
     ) { }
 
     ngOnInit() {
@@ -49,7 +54,13 @@ export class LoginPage implements OnInit {
                 duration: 3000
             });
             toast.present();
-        } else if (this.password === '') {
+        } else if (this.password === '' && !this.isVerify) {
+            const toast = await this.toastCtrl.create({
+                message: '请输入您的密码',
+                duration: 3000
+            });
+            toast.present();
+        } else if (this.verifyCode.code === '' && this.isVerify) {
             const toast = await this.toastCtrl.create({
                 message: '请输入您的密码',
                 duration: 3000
@@ -75,22 +86,26 @@ export class LoginPage implements OnInit {
                     config.isLaunched = true;
                     this.localStorageService.set('App', config);
                     this.user = result.data.user;
+                    this.varServiceService.reset();
                     this.localStorageService.set('User', this.user);
                     this.permission = result.data.permission;
                     this.localStorageService.set('Permission', this.permission);
-                    console.log(this.user.name);
+                    console.log('login');
+                    console.log(this.user);
                     this.router.navigateByUrl('tabs');
                 }
                 else {
                     // this.varServiceService.presentToast('登录错误');
-                    this.varServiceService.presentToast(result.msg);
+                    // this.varServiceService.presentToast(result.msg);
                     const alert = await this.alertCtrl.create({
                         header: '提示',
-                        message: '用户名或者密码不正确',
+                        message: result.msg,
                         buttons: ['确定']
                     });
                     await alert.present();
                 }
+            }).catch((error) => {
+                this.varServiceService.presentToast('网络出错');
             });
             // if (!this.passportService.login(this.username, this.password)) {
             //     const alert = await this.alertCtrl.create({
@@ -111,22 +126,74 @@ export class LoginPage implements OnInit {
         console.log('signup');
         this.router.navigateByUrl('/passport/signup');
     }
+    onQuick() {
+        this.router.navigateByUrl('/passport/quick');
+    }
     onForgotPassword() {
         console.log('forgotpassword');
         this.router.navigateByUrl('/passport/forgotpassword');
     }
     onWeChat() {
+        this.varServiceService.presentToast('该功能还在开发!');
         // this.router.navigateByUrl('organization');
         // this.router.navigate(['organization'], { queryParams: {fromUrl: 'passport/login'} });
+        // this.networkService.loginByGithub().then((data: any) => {
+
+        //     console.log(data.status);
+        //     console.log(data.data); // data received by server
+        //     console.log(data.headers);
+
+        // })
+        //     .catch(error => {
+        //         console.log(error);
+        //         console.error(error.status);
+        //         console.error(error.error); // error message as string
+        //         console.error(error.headers);
+
+        //     });
+        // this.brow();
+        // console.log('github');
+        // this.networkService.loginByGithub().then(async (result: any) => {
+        //     console.log('then');
+        //     console.log(result);
+        // }).catch((error) => {
+        //     console.log('error');
+        //     console.log(error);
+        //     this.varServiceService.presentToast('网络出错');
+        // });
+    }
+    onQQ(){
+        this.varServiceService.presentToast('该功能还在开发!');
+        // const browser = this.iab.create('https://www.baidu.com/');
+        // browser.insertCSS({ code: 'background-color: red;'});
+        // // const ls = browser.on('loadstop');
+        // // browser.hide();
+        // console.log('browser');
+        // console.log(browser);
+        // browser.on('loadstart').subscribe((event) => {
+        //     console.log(event);
+        //     this.appbrow = 'appbrow';
+        // });
+        // browser.close();
     }
     getverifyCode() {
         if (this.username === '') {
             this.varServiceService.presentToast('手机号不能为空!');
         }
         else {
-            this.networkService.getverifyCode(this.username, 'login');
-            this.verifyCode.disable = true;
-            this.settime();
+            this.networkService.getverifyCode(this.username, 'login').then(async (result: any) => {
+                if (result.code === 200) {
+                    this.varServiceService.presentToast(result.msg);
+                    this.verifyCode.disable = true;
+                    this.settime();
+                    // this.verifyCode.disable = false;
+                }
+                else {
+                    this.varServiceService.presentToast(result.code + result.msg);
+                }
+            }).catch((error) => {
+                this.varServiceService.presentToast('网络出错');
+            });
         }
     }
     settime() {
@@ -147,5 +214,49 @@ export class LoginPage implements OnInit {
     }
     onVerifyCodeLogin() {
         this.isVerify = !this.isVerify;
+    }
+    brow() {
+        // const browser = this.iab.create('https://github.com/login/oauth/authorize?client_id=4ad78bed988e37c07544&state=STATE&redirect_uri=http://120.79.182.99:80/daoyun/callback/git', '_self');
+        // browser.show();
+        // const browser = this.iab.create('https://github.com/yiershan', '_self');
+        // browser.show();
+        // browser.on('exit')
+        //     .subscribe(
+        //         (e) => {
+        //             console.log(e.url);
+        //         },
+        //         err => {
+        //             console.log('InAppBrowser loadstart Event Error: ' + err);
+        //         });
+        // browser.executeScript(...);
+
+        // browser.insertCSS(...);
+        // console.log(browser);
+        // console.log(browser.on('loadstop'));
+        // browser.on('loadstop').subscribe((event) => {
+        //     browser.insertCSS({ code: "body{color: red;" });
+        //     console.log(event);
+        // });
+
+        // browser.on('loadstop').subscribe((event) => {
+        //     // browser.insertCSS({ code: "body{color: red;" });
+        //     console.log(event);
+        // });
+
+
+        // browser.close();
+
+
+        const browser = this.iab.create('https://www.baidu.com/');
+        browser.insertCSS({ code: 'background-color: red;'});
+        // const ls = browser.on('loadstop');
+        browser.hide();
+        console.log('browser');
+        console.log(browser);
+        browser.on('loadstart').subscribe((event) => {
+            console.log(event);
+        });
+        browser.close();
+
     }
 }

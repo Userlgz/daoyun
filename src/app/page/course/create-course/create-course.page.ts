@@ -16,18 +16,18 @@ export class CreateCoursePage implements OnInit {
     teacherId: null,
     name: null,
     term: null,
-    testArrange: null,
+    testArrange: '无',
     courseNumber: null,
     school: null,
     college: null,
     classNumber: null,
-    teachArrange: null,
+    teachArrange: '无',
   };
 
 
-  public termOptions = [
-    ['2019', '2020', '2021', '2022', '2023'],
-    ['第一学期', '第二学期']
+  termOptions = [
+    ['2020-2021', '2021-2022', '2022-2023'],
+    ['1', '2']
   ];
   public termText = '学期'; // 选择的学科
 
@@ -58,16 +58,30 @@ export class CreateCoursePage implements OnInit {
 
   pickerFn($start, $length, $option, type) {
     const that = this;
-    this.pickerService.openPicker($start, $length, $option, (result) => {
-      const vals = JSON.parse(result)['col-0'].text + ' ' + JSON.parse(result)['col-1'].text;
+    const selectIdx = [];
+    const myDate = new Date();
+    const year = myDate.getFullYear();
+    let mouth = myDate.getMonth();
+    console.log(year, mouth);
+    if (mouth < 6){
+      mouth = 1;
+    }
+    else{
+      mouth = 0;
+    }
+    selectIdx.push(year - 2020 - mouth);
+    selectIdx.push(mouth);
+    console.log(selectIdx);
+    this.pickerService.openPicker($start, $length, $option, [1, 0], (result) => {
+      const vals = JSON.parse(result)['col-0'].text + '-' + JSON.parse(result)['col-1'].text;
       // that.termText = vals;
       that.course.term = vals;
       // console.log(that.termText);
     });
   }
-  onSubmission(){
+  onSubmission() {
     this.course.teacherId = this.varServiceService.getUser().id;
-    if (this.course.name === null){
+    if (this.course.name === null) {
       this.varServiceService.presentToast('请填写课程名称');
     }
     else if (this.course.classNumber === null) {
@@ -81,13 +95,18 @@ export class CreateCoursePage implements OnInit {
     }
     else {
       this.networkService.createCourse(this.course, this.varServiceService.getUser().token).then(async (result: any) => {
+        // console.log(this.course);
         if (result.code === 200) {
           this.varServiceService.presentToast('创建课程成功');
-          this.router.navigateByUrl('tabs/home');
+          this.course = result.data;
+          VarServiceService.course = this.course;
+          this.router.navigateByUrl('course/course-info');
         }
         else {
-          this.varServiceService.presentAlert(result.msg);
+          this.varServiceService.presentAlert(result.code + result.msg);
         }
+      }).catch((error) => {
+        this.varServiceService.presentToast('网络出错');
       });
     }
   }

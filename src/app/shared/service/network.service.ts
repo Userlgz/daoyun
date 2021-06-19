@@ -1,13 +1,17 @@
 import { User } from './../class/user';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HTTP } from '@ionic-native/http/ngx';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NetworkService {
   rooturl = 'http://120.79.182.99/daoyun';
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private httpt: HTTP
+  ) { }
 
   post(url: string, param: any = null, header: any = null) {
     const posturl = this.rooturl + url;
@@ -46,6 +50,38 @@ export class NetworkService {
       code: ucode,
     };
     return this.post('/user/login/code', param);
+  }
+  loginByGithub() {
+    /*
+    https://github.com/login/oauth/authorize?client_id=4ad78bed988e37c07544&state=STATE&redirect_uri=http://120.79.182.99:80/daoyun/callback/git
+    */
+    const param = {
+      client_id: '4ad78bed988e37c07544',
+      state: 'STATE',
+      redirect_uri: 'http://120.79.182.99:80/daoyun/callback/git'
+    };
+    const header = {
+      'Access-Control-Allow-Origin': '*',
+
+    };
+    // return new Promise((reslove, reject) => {
+    //   this.http.get('https://github.com/login/oauth/authorize', { headers: header, params: param }).subscribe((response) => {
+    //     reslove(response);
+    //   }, (error) => {
+    //     reject(error);
+    //   });
+    // });
+    return this.get('/login/oauth/authorize', param, header);
+    // return this.httpt.get('https://github.com/login/oauth/authorize', param, null);
+  }
+  login__() {
+    return new Promise((reslove, reject) => {
+      this.http.get('http://ionic.io', {}).subscribe((response) => {
+        reslove(response);
+      }, (error) => {
+        reject(error);
+      });
+    });
   }
   signup(signup: any) {
     return this.post('/user/register', signup);
@@ -128,18 +164,73 @@ export class NetworkService {
       token: usertoken,
     };
     const param = {
-      courseId: 1,
+      courseId: cid,
     };
     return this.post('/sign/get/course', param, header);
   }
-  getSignById(sid, usertoken) {
+  getSignStuById(sid, usertoken) {
     const header = {
       token: usertoken,
     };
     const param = {
-      signId: 1,
+      signId: sid,
     };
-    return this.post('/sign/get/student', param, header);
+    return this.get('/sign/get/student', param, header);
+  }
+  updateUserInfo(userInfo, usertoken) {
+    const header = {
+      token: usertoken,
+    };
+    return this.post('/user/info/change', userInfo, header);
+  }
+  updatePassword(oldp, newp, usertoken) {
+    const header = {
+      token: usertoken,
+    };
+    const param = {
+      oldPsw: oldp,
+      newPsw: newp
+    };
+    return this.post('/user/psw/change', param, header);
+  }
+  createSign(type, sign, usertoken) {
+    const header = {
+      token: usertoken,
+    };
+    return this.post('/sign/' + type, sign, header);
+  }
+  searchSigning(courseid, usertoken) {
+    const header = {
+      token: usertoken,
+    };
+    const param = {
+      courseId: courseid,
+    };
+    return this.post('/sign/get/running', param, header);
+  }
+  getCourseRunSign(cid, usertoken) {
+    const header = {
+      token: usertoken,
+    };
+    const param = {
+      courseId: cid,
+    };
+    return this.post('/sign/get/running', param, header);
+  }
+  joinSign(sign, usertoken) {
+    const header = {
+      token: usertoken,
+    };
+    return this.post('/sign/join', sign, header);
+  }
+  endSign(sid, usertoken) {
+    const header = {
+      token: usertoken,
+    };
+    const param = {
+      signId: sid,
+    };
+    return this.post('/sign/finish', param, header);
   }
 }
 

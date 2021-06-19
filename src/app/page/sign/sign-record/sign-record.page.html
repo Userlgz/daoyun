@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button text="返回" icon="chevron-back-outline"></ion-back-button>
+    </ion-buttons>
+    <ion-title>签到记录</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item (click)="changeNoSignShow()" color="light">
+      <ion-label>
+        <h2>未签到</h2>
+      </ion-label>
+      <ion-note slot="end">{{noSign.length}}人</ion-note>
+    </ion-item>
+    <ion-item-group *ngIf="noSignShow">
+      <ion-item *ngFor="let item of noSign; let i=index">
+        <ion-label class="label1">
+          <h2>{{item.name}}</h2>
+          <p>{{item.userId}}</p>
+          <!-- <p>签到&nbsp;{{item.ok}}&nbsp;&nbsp;迟到&nbsp;{{item.later}}&nbsp;&nbsp;缺勤&nbsp;{{item.no}}</p> -->
+        </ion-label>
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
+  <ion-list>
+    <ion-item color="light">
+      <ion-label (click)="changeSignedShow()">
+        <h2>已签到</h2>
+      </ion-label>
+      <ion-note slot="end">{{signed.length}}人</ion-note>
+    </ion-item>
+    <ion-item-group *ngIf="signedShow">
+      <ion-item *ngFor="let item of signed; let i=index">
+        <ion-label class="label1">
+          <h2>{{item.name}}</h2>
+          <p>{{item.userId}}</p>
+          <!-- <p>签到&nbsp;{{item.ok}}&nbsp;&nbsp;迟到&nbsp;{{item.later}}&nbsp;&nbsp;缺勤&nbsp;{{item.no}}</p> -->
+        </ion-label>
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
+</ion-content>

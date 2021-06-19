@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>注册</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button text="返回" icon="chevron-back-outline"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+  <ion-list lines="none" color="primary" style="margin-top: 10px; padding: 20px;">
+    <!-- <ion-item> -->
+    <!-- <ion-label position="stacked" style="margin: 10px;">以下为必填项&nbsp;<ion-text color="danger">*</ion-text></ion-label> -->
+    <!-- </ion-item> -->
+    <!-- <div *ngIf="!isQuick"> -->
+    <ion-item>
+      <ion-label position="fixed">手机号&nbsp;<ion-text color="danger">*</ion-text>
+      </ion-label>
+      <!-- <ion-input type="text" [(ngModel)]="signup.phone" placeholder="未设置"></ion-input> -->
+      <ion-input name="phone" type="number" placeholder="未设置" required
+        pattern="^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,3,5-9]))\d{8}$" [(ngModel)]="signup.phone"
+        #phone="ngModel">
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="fixed">验证码&nbsp;<ion-text color="danger">*</ion-text>
+      </ion-label>
+      <ion-input type="text" [(ngModel)]="signup.verifyCode" placeholder="未设置" name="code" #code="ngModel" required>
+      </ion-input>
+      <!-- <ion-button expand="full" color="primary" (click)="getverifyCode()" disabled="{{verifyCode.disable}}">
+          {{verifyCode.verifyCodeTips}}</ion-button> -->
+    </ion-item>
+    <!-- </div> -->
+
+
+    <ion-button expand="full" color="primary" (click)="getverifyCode()" disabled="{{verifyCode.disable}}"
+      style="padding-top:3%;">
+      {{verifyCode.verifyCodeTips}}</ion-button>
+
+    <!-- <ion-item> -->
+    <ion-text class="ion-text-left" color="danger" *ngIf="phone.invalid && phone.touched || submited">
+      <h5 [hidden]="!phone.errors?.required" class="padding-start">请输入手机号码</h5>
+      <h5 [hidden]="!phone.errors?.pattern" class="padding-start">您输入的手机号格式不正确</h5>
+    </ion-text>
+
+    <ion-text text-left color="danger" *ngIf="code.invalid && code.touched">
+      <h5 [hidden]="!code.errors?.required" padding-start>请输入验证码</h5>
+    </ion-text>
+    <!-- </ion-item> -->
+    <!-- <ion-item-divider></ion-item-divider> -->
+    <!-- <ion-item>
+      <ion-label>学校</ion-label>
+      <ion-select (ionChange)="onChangeschool($event)"
+        interface="action-sheet">
+        <ion-select-option [value]="item" *ngFor="let item of schools">{{item.name}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>学院</ion-label>
+      <ion-select (ionChange)="onChangecollege($event)" [(ngModel)]="signup.college"
+        interface="action-sheet" [disabled]="isCollegeShow">
+        <ion-select-option [value]="item.name" *ngFor="let item of colleges">{{item.name}}</ion-select-option>
+      </ion-select>
+    </ion-item> -->
+
+  </ion-list>
+</ion-content>
+
+<ion-footer style="position:absolute; bottom: 3%">
+  <div class="ion-padding">
+    <ion-button (click)="onSubmit()" expand="block" class="ion-no-margin">
+      提交
+    </ion-button>
+  </div>
+</ion-footer>

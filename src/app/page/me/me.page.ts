@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { LocalStorageService } from 'src/app/shared/service/local-storage.service';
 import { AlertController } from '@ionic/angular';
 import { User } from 'src/app/shared/class/user';
+import { VarServiceService } from 'src/app/shared/service/var-service.service';
 
 @Component({
   selector: 'app-me',
@@ -20,7 +21,9 @@ export class MePage implements OnInit {
     private localStorageService: LocalStorageService,
     private router: Router,
     private alertController: AlertController,
-    private passportService: PassportServiceService) {
+    private passportService: PassportServiceService,
+    private varServiceService: VarServiceService
+  ) {
     const appConfig: any = this.localStorageService.get(APP_KEY, null);
     this.version = appConfig.version;
     this.getData();
@@ -67,6 +70,7 @@ export class MePage implements OnInit {
             this.localStorageService.set(APP_KEY, app);
             this.localStorageService.remove('User');
             this.localStorageService.remove('loginTime');
+            this.varServiceService.reset();
             this.name = '请下拉刷新';
             this.id = '';
             this.router.navigateByUrl('/passport/login');

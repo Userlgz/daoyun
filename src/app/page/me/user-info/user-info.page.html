@@ -52,14 +52,16 @@
   <div *ngIf="isEdit">
     <ion-list inset="true" style="margin: 2% 3% 2% 3%;">
       <ion-item>
-        <ion-label class="label-padding">姓名</ion-label>
-        <ion-note slot="end" class="font-size">{{user.name}}</ion-note>
+        <ion-label position="fixed" class="label-padding">姓名</ion-label>
+        <ion-input type="text" [(ngModel)]="user.name" placeholder="{{user.name}}"></ion-input>
+        <!-- <ion-note slot="end" class="font-size">{{user.name}}</ion-note> -->
       </ion-item>
       <ion-item>
         <!-- <ion-label *ngIf="isStudent">学号</ion-label>
         <ion-label *ngIf="!isStudent">工号</ion-label> -->
-        <ion-label>学号/工号</ion-label>
-        <ion-note slot="end" class="font-size">{{user.userId}}</ion-note>
+        <ion-label position="fixed">学号/工号</ion-label>
+        <ion-input type="text" [(ngModel)]="user.userId" placeholder="{{user.userId}}"></ion-input>
+        <!-- <ion-note slot="end" class="font-size">{{user.userId}}</ion-note> -->
       </ion-item>
       <ion-item>
         <ion-label>手机号</ion-label>

@@ -55,6 +55,8 @@ export class SignInfoPage implements OnInit {
         if (result.code === 200) {
           this.signInfo = result.data;
         }
+      }).catch((error) => {
+        this.varServiceService.presentToast('网络出错');
       });
   }
 }

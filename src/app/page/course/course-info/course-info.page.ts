@@ -9,13 +9,26 @@ import { Component, OnInit } from '@angular/core';
 export class CourseInfoPage implements OnInit {
 
   courseName = '';
+  course: any;
   constructor(
     private varServiceService: VarServiceService,
   ) {
-    this.courseName = varServiceService.getCourseName();
+    // this.courseName = varServiceService.getCourseName();
+    this.course = VarServiceService.course;
+    console.log('cs course');
+    console.log(this.course);
+    this.courseName = this.course.name;
+
   }
 
   ngOnInit() {
+    // this.createCode();
+    this.course = VarServiceService.course;
+    console.log('cs course');
+    console.log(this.course);
+    this.courseName = this.course.name;
   }
+  delCourse() {
 
+  }
 }

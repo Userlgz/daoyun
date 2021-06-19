@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button text="返回" icon="chevron-back-outline"></ion-back-button>
+    </ion-buttons>
+    <ion-title>签到</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- <div> -->
+  <!-- <ion-chip color="secondary">
+      <ion-label color="secondary">签到</ion-label>
+    </ion-chip> -->
+  <!-- </div> -->
+  <ion-card style="top: 30vh;" [hidden]="signTextShow">
+    <ion-card-content>
+      <ion-item lines='none' style="color: limegreen;">
+        <p>签到时间: {{signTime}}</p>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+  <ion-buttons style="justify-content: center; position: relative; top: 30vh;" [hidden]="!signTextShow">
+    <ion-button color="secondary" size="large" fill="outline" (click)="onSignIn()">
+      <!-- <ion-icon slot="start" name="add"></ion-icon> -->
+      签到
+      <ion-ripple-effect></ion-ripple-effect>
+    </ion-button>
+  </ion-buttons>
+  <!-- <ion-button color="secondary" size="large" fill="outline" (click)="onSignIn()">
+    签到
+    <ion-ripple-effect></ion-ripple-effect>
+  </ion-button> -->
+
+
+
+</ion-content>

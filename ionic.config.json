@@ -6,5 +6,11 @@
     },
     "cordova": {}
   },
-  "type": "angular"
+  "type": "angular",
+  "proxies": [
+    {
+      "path": "/login/oauth/authorize", 
+      "proxyUrl": "https://github.com/login/oauth/authorize"
+    }
+  ]
 }

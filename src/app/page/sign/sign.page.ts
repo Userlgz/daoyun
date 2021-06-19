@@ -5,6 +5,8 @@ import PatternLock from 'patternlock';
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { VarServiceService } from 'src/app/shared/service/var-service.service';
+import { PickerService } from 'src/app/shared/service/picker.service';
+import { range } from 'rxjs';
 // declare var PatternLock: any;
 declare var BMap;
 
@@ -23,7 +25,29 @@ export class SignPage implements OnInit {
   longitude: any;
   latitude: any;
   pText = '经纬度';
-  signRecords = [];
+  signRecords = [
+    // {
+    //   beginTime: '2021-06-08 16:31:34',
+    //   parameter: {
+    //     name: '123'
+    //   }
+    // },
+    // {
+    //   beginTime: '2021-06-08 16:31:34',
+    //   parameter: {
+    //     name: '123'
+    //   }
+    // },
+  ];
+  termOptions = [
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
+    ['小时'],
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
+      24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45,
+      46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59],
+    ['分钟']
+  ];
+  minutes = 0;
   // "id": 1,
   // "beginTime": "2021-04-08 16:29:17",
   // "endTime": "2021-04-10 22:09:50",
@@ -40,15 +64,18 @@ export class SignPage implements OnInit {
   //   "name": "手势签到"
   // },
   // "finish": true
-  // @ViewChild('map') map_container: ElementRef;
   constructor(
     private geolocation: Geolocation,
     private networkService: NetworkService,
     private varServiceService: VarServiceService,
     private router: Router,
+    public pickerService: PickerService,
   ) {
   }
   ngOnInit() {
+    // for (let i = 1; i < 60; i++) {
+    //   this.termOptions[0].push(i);
+    // }
     this.getLocation();
     this.getSign();
   }
@@ -58,55 +85,97 @@ export class SignPage implements OnInit {
         console.log(result);
         if (result.code === 200) {
           this.signRecords = result.data;
+          console.log('getSign');
+          console.log(result);
         }
+      }).catch((error) => {
+        this.varServiceService.presentToast('网络出错');
       });
   }
   onOneClick() {
-
+    const sign = {
+      courseId: this.varServiceService.getCourseID(),
+      isFinish: 0,
+      longitude: this.longitude,
+      latitude: this.latitude
+    };
+    // this.sign.courseId = this.varServiceService.getCourseID();
+    console.log('onOneClick', VarServiceService.startSign);
+    if (!VarServiceService.startSign) {
+      this.networkService.createSign('one', sign, this.varServiceService.getUser().token).then(async (result: any) => {
+        if (result.code === 200) {
+          this.varServiceService.presentAlert('请提醒学生开始签到！');
+          console.log(result);
+          this.router.navigateByUrl('sign/signing');
+        }
+        else {
+          this.varServiceService.presentToast(result.code + result.msg);
+        }
+      }).catch((error) => {
+        this.varServiceService.presentToast('网络出错');
+      });
+    }
+    else {
+      this.varServiceService.presentAlert('您还有未结束的签到');
+      this.router.navigateByUrl('sign/signing');
+    }
   }
   onLimitTime() {
-
+    // 2, termOptions[0].length, termOptions, '时间'
+    const sign = {
+      courseId: this.varServiceService.getCourseID(),
+      isFinish: 0,
+      longitude: this.longitude,
+      latitude: this.latitude,
+      limit: 1,
+    };
+    const that = this;
+    this.pickerService.openPicker(4, 60, this.termOptions, [0, 1], (result) => {
+      console.log(result);
+      this.minutes = JSON.parse(result)['col-0'].text * 60 + JSON.parse(result)['col-2'].text;
+      if (this.minutes === 0) {
+        this.varServiceService.presentToast('至少需要一分钟');
+      }
+      else {
+        sign.limit = this.minutes;
+        if (!VarServiceService.startSign) {
+          this.networkService.createSign('limit', sign, this.varServiceService.getUser().token).then(async (createSign: any) => {
+            if (createSign.code === 200) {
+              this.varServiceService.presentAlert('请提醒学生开始签到！');
+              console.log(createSign);
+              this.router.navigateByUrl('sign/signing');
+            }
+            else {
+              this.varServiceService.presentToast(createSign.code + createSign.msg);
+            }
+          }).catch((error) => {
+            this.varServiceService.presentToast('网络出错');
+          });
+          console.log(this.minutes);
+        }
+        else {
+          this.varServiceService.presentAlert('您还有未结束的签到');
+          this.router.navigateByUrl('sign/signing');
+        }
+      }
+    });
   }
   onGesture() {
-    this.router.navigateByUrl('sign/gesture');
+    // 2
+    this.router.navigate(['sign/gesture'], { queryParams: { longitude: this.longitude, latitude: this.latitude } });
+    // this.router.navigateByUrl('sign/gesture');
   }
   onManual() {
 
   }
-  toSignInfo() {
-
+  toSignInfo(item) {
+    console.log(item);
+    this.router.navigate(['sign/sign-record'], { queryParams: { signid: item.id } });
+    // this.router.navigateByUrl('sign/sign-record');
   }
   getLocation() {
 
     this.geolocation.getCurrentPosition().then((resp) => {
-
-      // if (resp && resp.coords) {
-
-      //   let locationPoint = new BMap.Point(resp.coords.longitude, resp.coords.latitude);
-
-      //   let convertor = new BMap.Convertor();
-
-      //   let pointArr = [];
-
-      //   pointArr.push(locationPoint);
-
-      //   convertor.translate(pointArr, 1, 5, (data) => {
-
-      //     if (data.status === 0) {
-
-      //       let marker = new BMap.Marker(data.points[0], { icon: this.myIcon });
-
-      //       this.map.panTo(data.points[0]);
-
-      //       marker.setPosition(data.points[0]);
-
-      //       this.map.addOverlay(marker);
-
-      //     }
-
-      //   });
-
-      //   this.map.centerAndZoom(locationPoint, 13);
       this.pText = 'GPS定位：您的位置是 ' + resp.coords.longitude + ',' + resp.coords.latitude;
       console.log('GPS定位：您的位置是 ' + resp.coords.longitude + ',' + resp.coords.latitude);
       this.longitude = resp.coords.longitude;

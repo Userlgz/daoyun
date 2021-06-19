@@ -57,6 +57,8 @@ export class OrganizationPage implements OnInit {
         else {
           this.varServiceService.presentToast('获取学院失败!');
         }
+      }).catch((error) => {
+        this.varServiceService.presentToast('网络出错');
       });
     }
   }
@@ -69,6 +71,8 @@ export class OrganizationPage implements OnInit {
       else {
         this.varServiceService.presentToast('获取学校失败!');
       }
+    }).catch((error) => {
+      this.varServiceService.presentToast('网络出错');
     });
   }
 

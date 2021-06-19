@@ -6,9 +6,9 @@ import { PickerController } from '@ionic/angular';
 })
 export class PickerService {
   constructor(public pickercontroller: PickerController) { }
-  async openPicker(numColumns = 1, numOptions = 5, multiColumnOptions, callback) {
+  async openPicker(numColumns = 1, numOptions = 5, multiColumnOptions, selectIdx, callback) {
     const picker = await this.pickercontroller.create({
-      columns: this.getColumns(numColumns, numOptions, multiColumnOptions),
+      columns: this.getColumns(numColumns, numOptions, multiColumnOptions, selectIdx),
       buttons: [
         {
           text: '取消',
@@ -25,11 +25,13 @@ export class PickerService {
     });
     await picker.present();
   }
-  getColumns(numColumns, numOptions, columnOptions) {
+  getColumns(numColumns, numOptions, columnOptions, selectIdx) {
     const columns = [];
+    console.log('getColumns', selectIdx);
     for (let i = 0; i < numColumns; i++) {
       columns.push({
         name: `col-${i}`,
+        selectedIndex: selectIdx[i],
         options: this.getColumnOptions(i, numOptions, columnOptions)
       });
     }

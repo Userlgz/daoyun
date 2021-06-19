@@ -1,3 +1,4 @@
+import { User } from './../../../shared/class/user';
 import { NetworkService } from './../../../shared/service/network.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,19 +17,7 @@ export class UserInfoPage implements OnInit {
   isStudent = true; // 是否是学生
   identity = '';
 
-  user = {
-    phone: '',
-    name: '',
-    birth: '',
-    sex: '',
-    photo: '',
-    school: '',
-    college: '',
-    entryYear: '',
-    userId: '',
-    createTime: '',
-    token: '',
-  };
+  user: User = null;
 
   colleges: any = null;
   schools: any = null;
@@ -42,11 +31,11 @@ export class UserInfoPage implements OnInit {
     private varServiceService: VarServiceService,
     private activatedRoute: ActivatedRoute,
   ) {
-    this.showSchool();
   }
 
   ngOnInit() {
-    this.user = this.passportService.getUser();
+    this.user = this.varServiceService.getUser();
+    console.log('asdgfagagr');
     console.log(this.user);
     // if (this.user.permission === 2) {
     //   this.identity = '老师';
@@ -57,9 +46,16 @@ export class UserInfoPage implements OnInit {
     this.identity = this.varServiceService.getPermission().name;
     this.activatedRoute.queryParams.subscribe(
       (queryParams) => {
-        console.log(queryParams);
-        this.user.school = queryParams.schoolname;
-        this.user.college = queryParams.collegename;
+
+        if (queryParams.schoolname) {
+          console.log('user-info');
+          this.user.school = queryParams.schoolname;
+          this.user.college = queryParams.collegename;
+        }
+        else {
+          console.log(queryParams);
+        }
+
         // console.log(this.course);
       }
     );
@@ -71,6 +67,13 @@ export class UserInfoPage implements OnInit {
 
   onSubmit() {
     this.isEdit = false;
+    console.log('submit');
+    console.log(this.user);
+    this.networkService.updateUserInfo(this.user, this.user.token).then((async (result: any) => {
+      this.varServiceService.presentToast(result.msg);
+    }));
+    this.passportService.setUser(this.user);
+    this.varServiceService.reset();
   }
   showSchool() {
     // console.log();
@@ -81,6 +84,8 @@ export class UserInfoPage implements OnInit {
       else {
         this.varServiceService.presentToast('获取学校失败!');
       }
+    }).catch((error) => {
+      this.varServiceService.presentToast('网络出错');
     });
   }
   showCollege(schoolId) {
@@ -97,6 +102,8 @@ export class UserInfoPage implements OnInit {
         else {
           this.varServiceService.presentToast('获取学院失败!');
         }
+      }).catch((error) => {
+        this.varServiceService.presentToast('网络出错');
       });
     }
   }

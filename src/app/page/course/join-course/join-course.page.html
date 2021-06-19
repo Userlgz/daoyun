@@ -16,11 +16,11 @@
   <ion-list inset="true" style="margin: 2% 3% 2% 3%;">
     <ion-item>
       <ion-label class="label-padding">课程名称</ion-label>
-      <ion-note>{{course.name}}</ion-note>
+      <ion-note slot="end">{{course.name}}</ion-note>
     </ion-item>
     <ion-item>
       <ion-label>班级</ion-label>
-      <ion-note>{{course.classNumber}}</ion-note>
+      <ion-note slot="end">{{course.classNumber}}</ion-note>
     </ion-item>
     <ion-item>
       <ion-label>学期</ion-label>
@@ -34,7 +34,7 @@
 
     <ion-item>
       <ion-label>学校学院</ion-label>
-      <ion-note class="smallnote">{{course.school}} {{course.college}}</ion-note>
+      <ion-note class="smallnote" slot="end">{{course.school}} {{course.college}}</ion-note>
     </ion-item>
 
     <ion-item>

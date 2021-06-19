@@ -18,6 +18,10 @@ const routes: Routes = [
     path: 'forgotpassword',
     loadChildren: () => import('./forgotpassword/forgotpassword.module').then( m => m.ForgotpasswordPageModule)
   },
+  {
+    path: 'quick',
+    loadChildren: () => import('./quick/quick.module').then( m => m.QuickPageModule)
+  },
 ];
 
 @NgModule({

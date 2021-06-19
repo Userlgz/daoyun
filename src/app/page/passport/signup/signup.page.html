@@ -12,15 +12,17 @@
     <!-- <ion-item> -->
     <!-- <ion-label position="stacked" style="margin: 10px;">以下为必填项&nbsp;<ion-text color="danger">*</ion-text></ion-label> -->
     <!-- </ion-item> -->
-
-    <!-- <ion-item>
-      <ion-label position="fixed">学号/工号&nbsp;<ion-text color="danger">*</ion-text></ion-label>
+    <!-- <div *ngIf="!isQuick"> -->
+    <ion-item>
+      <ion-label position="fixed">学号/工号&nbsp;<ion-text color="danger">*</ion-text>
+      </ion-label>
       <ion-input type="text" [(ngModel)]="signup.userId" placeholder="未设置"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label position="fixed">姓名&nbsp;<ion-text color="danger">*</ion-text></ion-label>
+      <ion-label position="fixed">姓名&nbsp;<ion-text color="danger">*</ion-text>
+      </ion-label>
       <ion-input [(ngModel)]="signup.name" placeholder="未设置"></ion-input>
-    </ion-item> -->
+    </ion-item>
     <ion-item>
       <ion-label position="fixed">手机号&nbsp;<ion-text color="danger">*</ion-text>
       </ion-label>
@@ -35,7 +37,7 @@
       </ion-label>
       <!-- <ion-input type="password" [(ngModel)]="signup.password" placeholder="未设置"></ion-input> -->
       <ion-input type="password" required [(ngModel)]="signup.password" placeholder="未设置" name="password"
-        #password="ngModel" pattern="[0-9a-zA-Z]{6,12}">
+        #password="ngModel" pattern="[0-9a-zA-Z]{6,20}">
       </ion-input>
     </ion-item>
     <ion-item>
@@ -43,33 +45,36 @@
       </ion-label>
       <!-- <ion-input type="password" [(ngModel)]="confirmPassword" placeholder="未设置"></ion-input> -->
       <ion-input type="password" required [(ngModel)]="confirmPassword" placeholder="未设置" name="cpassword"
-        #cpassword="ngModel" pattern="[0-9a-zA-Z]{6,12}">
+        #cpassword="ngModel" pattern="[0-9a-zA-Z]{6,20}">
       </ion-input>
     </ion-item>
-    <!-- <ion-item>
-      <ion-label>身份&nbsp;<ion-text color="danger">*</ion-text></ion-label>
-      <ion-select value="3" (ionChange)="onChangepermission($event)" [(ngModel)]="signup.permission"
+    <ion-item>
+      <ion-label>身份&nbsp;<ion-text color="danger">*</ion-text>
+      </ion-label>
+      <ion-select value="1" (ionChange)="onChangepermission($event)" [(ngModel)]="signup.permission"
         interface="action-sheet" placeholder="未设置">
         <ion-select-option value="2">教师</ion-select-option>
-        <ion-select-option value="3">学生</ion-select-option>
+        <ion-select-option value="1">学生</ion-select-option>
       </ion-select>
     </ion-item>
     <ion-item detail [routerLink]="['/organization']" [queryParams]="{'fromUrl': '/h5assport/signup'}">
       <ion-label>组织</ion-label>
-      <ion-note class="smallnote" >{{signup.school}} {{signup.college}}</ion-note>
-    </ion-item> -->
+      <ion-note class="smallnote">{{signup.school}} {{signup.college}}</ion-note>
+    </ion-item>
     <ion-item>
       <ion-label position="fixed">验证码&nbsp;<ion-text color="danger">*</ion-text>
       </ion-label>
-      <ion-input type="text" [(ngModel)]="signup.verifyCode" placeholder="未设置" name="code" #code="ngModel" required></ion-input>
-
+      <ion-input type="text" [(ngModel)]="signup.verifyCode" placeholder="未设置" name="code" #code="ngModel" required>
+      </ion-input>
+      <!-- <ion-button expand="full" color="primary" (click)="getverifyCode()" disabled="{{verifyCode.disable}}">
+          {{verifyCode.verifyCodeTips}}</ion-button> -->
     </ion-item>
+    <!-- </div> -->
 
 
     <ion-button expand="full" color="primary" (click)="getverifyCode()" disabled="{{verifyCode.disable}}"
       style="padding-top:3%;">
       {{verifyCode.verifyCodeTips}}</ion-button>
-
 
     <!-- <ion-item> -->
     <ion-text class="ion-text-left" color="danger" *ngIf="phone.invalid && phone.touched || submited">
@@ -111,7 +116,7 @@
   </ion-list>
 </ion-content>
 
-<ion-footer>
+<ion-footer style="position:absolute; bottom: 3%">
   <div class="ion-padding">
     <ion-button (click)="onSubmit()" expand="block" class="ion-no-margin">
       提交

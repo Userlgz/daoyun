@@ -21,13 +21,30 @@
 </ion-header>
 
 <ion-content>
-  
-  <ion-refresher slot="fixed" (ionRefresh)="refreshData($event)" >
+
+  <ion-refresher slot="fixed" (ionRefresh)="refreshData($event)">
     <ion-refresher-content pullingicon="arrow-down" pullingText="下拉刷新" refreshingSpinner="circles"
       refreshingText="加载中...">
     </ion-refresher-content>
   </ion-refresher>
+  <!-- <ion-grid *ngIf="joinCoursestotal === 0 && isJoin">
+    <ion-item lines="none">
+      <ion-text color="medium">您没有任何课程信息</ion-text>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-text color="medium">右上角添加班课</ion-text>
+    </ion-item>
+  </ion-grid>
+  <ion-grid *ngIf="createCoursestotal === 0 && !isJoin">
+    <ion-item lines="none">
+      <ion-text color="medium">您没有任何课程信息</ion-text>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-text color="medium">右上角创建班课</ion-text>
+    </ion-item>
+  </ion-grid> -->
   <ion-list>
+  <!-- <ion-list *ngIf="joinCoursestotal || createCoursestotal"> -->
     <ion-item *ngFor="let course of courses">
       <ion-thumbnail slot="start" (click)="toCourse(course)">
         <img src="assets\icon\favicon.png">
@@ -39,13 +56,13 @@
             <p>{{course.teacherName}}&nbsp;&nbsp;&nbsp;{{course.term}}</p>
           </ion-label>
           <ion-label *ngIf="!isJoin">
-            <h2>{{course.name}}</h2>
+            <h2>{{course.name}} {{course.classNumber}}</h2>
             <p>{{course.term}}&nbsp;&nbsp;&nbsp;{{course.courseNumber}}</p>
           </ion-label>
         </ion-row>
-        <ion-row style="height: 20px; align-content: center;">
+        <ion-row style="height: 20px; align-content: center;" *ngIf="isJoin">
           <ion-col>
-            <ion-button fill='clear' size="small" class='listbutton' (click)="onSign(course.id)">
+            <ion-button fill='clear' size="small" class='listbutton' (click)="onSign(course)">
               <ion-text>签到</ion-text>
             </ion-button>
           </ion-col>
@@ -57,6 +74,23 @@
           <ion-col>
             <ion-button fill='clear' size="small" class='listbutton'>
               <ion-text>抢答</ion-text>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+        <ion-row style="height: 20px; align-content: center;" *ngIf="!isJoin">
+          <ion-col>
+            <ion-button fill='clear' size="small" class='listbutton' (click)="onSign(course)">
+              <ion-text>签到</ion-text>
+            </ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button fill='clear' size="small" class='listbutton'>
+              <ion-text>幻灯片</ion-text>
+            </ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button fill='clear' size="small" class='listbutton'>
+              <ion-text>课堂表现</ion-text>
             </ion-button>
           </ion-col>
         </ion-row>

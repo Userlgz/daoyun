@@ -7,14 +7,17 @@ import { IonicModule } from '@ionic/angular';
 import { CourseInfoPageRoutingModule } from './course-info-routing.module';
 
 import { CourseInfoPage } from './course-info.page';
+import { NgxQRCodeModule } from 'ngx-qrcode2';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CourseInfoPageRoutingModule
+    CourseInfoPageRoutingModule,
+    NgxQRCodeModule
   ],
+
   declarations: [CourseInfoPage]
 })
 export class CourseInfoPageModule {}

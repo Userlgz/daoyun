@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button text="返回" icon="chevron-back-outline"></ion-back-button>
+    </ion-buttons>
+    <ion-title>签到中</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="refresh()">{{refreshTime.tips}}</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+        <ion-label>
+          <p>开始时间: {{signList[0].beginTime}}</p>
+        </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <p>结束时间: {{signList[0].endTime}}</p>
+      </ion-label>
+  </ion-item>
+  </ion-list>
+  <ion-item-group>
+    <ion-item *ngFor="let item of signed; let i=index" style="padding-top: 10px;">
+      <ion-label class="label1">
+        <h2>{{item.name}}</h2>
+        <!-- <p>签到&nbsp;{{item.ok}}&nbsp;&nbsp;迟到&nbsp;{{item.later}}&nbsp;&nbsp;缺勤&nbsp;{{item.no}}</p> -->
+      </ion-label>
+    </ion-item>
+  </ion-item-group>
+</ion-content>
+<ion-footer style="padding-bottom: 5%; height:13%; ">
+  <p style="text-align: center;">
+    {{signed.length}} / {{sign.length}}
+  </p>
+  <ion-buttons style="width: 100%; height:50%; margin: auto; place-content: center;" expand="full">
+    <ion-button color="primary" style="width: 50%; height: 100%; border-right-style: inset;" (click)="giveUpSign()">放弃
+    </ion-button>
+    <ion-button color="primary" style="width: 50%; height: 100%;" (click)="endSign()">结束</ion-button>
+  </ion-buttons>
+</ion-footer>

@@ -1,3 +1,6 @@
+import { VarServiceService } from 'src/app/shared/service/var-service.service';
+import { async } from '@angular/core/testing';
+import { NetworkService } from './../../../shared/service/network.service';
 import { PassportServiceService } from './../../../shared/service/passport-service.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -20,27 +23,25 @@ export class ChangePasswordPage implements OnInit {
   newPassword: string;
   confirmPass: string;
 
-  constructor(private passportService: PassportServiceService,
-              private toastCtrl: ToastController,
-              private navCtrl: NavController,
-              private router: Router) { }
+  constructor(
+    private passportService: PassportServiceService,
+    private router: Router,
+    private networkService: NetworkService,
+    private varServiceService: VarServiceService
+  ) { }
 
   ngOnInit() {
   }
   async onSave() {
     console.log('onSave');
-    const oldPass = this.passportService.getPassword();
-    this.isOldPassword = oldPass === this.oldpassword ? true : false;
-    if (this.newPassword === this.confirmPass && this.isOldPassword) {
-      this.passportService.updatePassword(this.newPassword);
-      console.log('修改成功');
-      this.router.navigateByUrl('me/setting');
-      const toast = await this.toastCtrl.create({
-        message: '修改成功',
-        duration: 2000,
-        color: 'success'
+    this.networkService.updatePassword(this.oldpassword, this.newPassword, this.passportService.getUser().token)
+      .then(async (result: any) => {
+        if (result.code === 200) {
+          this.router.navigateByUrl('tabs/me');
+        }
+        this.varServiceService.presentToast(result.msg);
+      }).catch((error) => {
+        this.varServiceService.presentToast('网络出错');
       });
-      await toast.present();
-    }
   }
 }

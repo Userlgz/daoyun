@@ -49,6 +49,9 @@ export class PassportServiceService {
     }
     return user;
   }
+  setUser(user: User){
+    this.localStorageService.set('User', user);
+  }
   getUserId(): User {
     const user = this.localStorageService.get('User', '');
     // console.log('account:' + account + ' ' + password);

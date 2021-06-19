@@ -21,11 +21,15 @@ export class HomePage implements OnInit {
   //    testTime: '',
   //    courseNumber: ''
   //  };
-  courses = null;
-  createCourses = null;
-  joinCourses = null;
+  courses = [];
+  createCourses = [];
+  joinCourses = [];
   permission: Permission;
   isJoin = true;
+  isStudent = true;
+  createdCode: string;
+  createCoursestotal = 0;
+  joinCoursestotal = 0;
 
   constructor(
     private router: Router,
@@ -36,12 +40,24 @@ export class HomePage implements OnInit {
     public popoverCtrl: PopoverController
   ) {
     this.getJoinCourses();
+    this.courses = this.joinCourses;
+    if (this.varServiceService.getUser().permission > 1) {
+      this.isStudent = false;
+    }
   }
 
   ngOnInit() {
-    this.courses = this.joinCourses;
-    console.log('constructor');
-    console.log(this.courses);
+    if (this.isJoin) {
+      this.refreshJoinCourse();
+      this.courses = this.joinCourses;
+    }
+    else {
+      this.refreshCreateCourse();
+      this.courses = this.createCourses;
+    }
+    // this.courses = this.joinCourses;
+    // console.log('ngOnInit');
+    // console.log(this.courses);
   }
 
   onSegChange(event) {
@@ -49,38 +65,47 @@ export class HomePage implements OnInit {
     console.log(event.detail.value);
     if (event.detail.value === 'join') {
       this.getJoinCourses();
+      // console.log(this.joinCourses, this.courses);
       this.isJoin = true;
     }
     else {
       this.getCreateCourses();
+      // console.log(this.createCourses, this.courses);
       this.isJoin = false;
     }
     //  }
   }
+
   toCourse(course) {
     console.log('toCourse ');
     console.log(course);
     this.varServiceService.setCourseName(course.name);
     this.varServiceService.setCourseID(course.id);
+    // if(course.te)
+    VarServiceService.course = course;
     //  console.log(VarServiceService.courseName);
-    //  this.router.navigate(['course'], { queryParams: { courseName: name } });
-    this.router.navigateByUrl('course');
+    this.router.navigate(['course'], { queryParams: { join: this.isJoin } });
+    // this.router.navigateByUrl('course');
   }
 
   getJoinCourses() {
     console.log('getJoinCourses');
-    if (this.joinCourses === null) {
+    if (this.joinCourses.length === 0) {
       this.networkService.getJoinCourses(this.varServiceService.getUser().token).then(async (result: any) => {
         if (result.code === 200) {
           //  this.presentAlert(result.msg);
           //  this.router.navigateByUrl('passport/login');
           this.joinCourses = result.data;
           this.courses = this.joinCourses;
+          this.joinCoursestotal = this.joinCourses.length;
+          // console.log(this.joinCourses);
           // this.varServiceService.presentToast('加载成功');
         }
         else {
           this.varServiceService.presentToast(result.msg);
         }
+      }).catch((error) => {
+        this.varServiceService.presentToast('网络出错');
       });
     }
     else {
@@ -90,13 +115,15 @@ export class HomePage implements OnInit {
 
   getCreateCourses() {
     console.log('getCreateCourses');
-    if (this.createCourses === null) {
+    if (this.createCourses.length === 0) {
+      console.log('getCreateCourses');
       this.networkService.getCreateCourses(this.varServiceService.getUser().token).then(async (result: any) => {
         if (result.code === 200) {
           //  this.presentAlert(result.msg);
           //  this.router.navigateByUrl('passport/login');
           this.createCourses = result.data;
           this.courses = this.createCourses;
+          this.createCoursestotal = this.joinCourses.length;
           // console.log(result);
           // this.varServiceService.presentToast('加载成功');
         }
@@ -105,6 +132,8 @@ export class HomePage implements OnInit {
           // this.presentAlert(result.msg);
           // console.log(result);
         }
+      }).catch((error) => {
+        this.varServiceService.presentToast('网络出错');
       });
     }
     else {
@@ -112,12 +141,67 @@ export class HomePage implements OnInit {
     }
   }
 
-  onSign(courseId) {
-    console.log(courseId);
-    this.router.navigateByUrl('sign');
+  onSign(course) {
+    let runSign = [];
+    console.log('onSign');
+    this.networkService.getCourseRunSign(course.id, this.varServiceService.getUser().token).then(async (result: any) => {
+      if (result.code === 200) {
+        console.log(result);
+        runSign = result.data;
+        console.log(runSign);
+        if (!this.isJoin) {
+          // console.log(courseId);
+          this.varServiceService.setCourseName(course.name);
+          this.varServiceService.setCourseID(course.id);
+          // if（course
+          VarServiceService.course = course;
+          if (runSign.length > 0) {
+            VarServiceService.startSign = true;
+          }
+          else {
+            VarServiceService.startSign = false;
+          }
+          console.log(VarServiceService.startSign);
+          this.router.navigateByUrl('sign');
+        }
+        else {
+          if (runSign.length > 0) {
+            this.varServiceService.setCourseName(course.name);
+            this.varServiceService.setCourseID(course.id);
+            VarServiceService.course = course;
+            this.router.navigateByUrl('sign/sign-in');
+            // console.log(courseId);
+            // this.varServiceService.setCourseName(courseId);
+            // this.varServiceService.setCourseID(courseId);
+            // this.router.navigateByUrl('sign');
+          }
+          else {
+            this.varServiceService.presentToast('还没有开始签到!');
+            return;
+          }
+        }
+      }
+      else {
+        this.varServiceService.presentToast(result.code + result.msg);
+      }
+    }).catch((error) => {
+      this.varServiceService.presentToast('网络出错');
+    });
   }
 
-
+  refreshCreateCourse() {
+    // this.joinCourses = [];
+    this.createCourses = [];
+    this.getCreateCourses();
+    // console.log(this.createCourses, this.courses);
+    this.isJoin = false;
+  }
+  refreshJoinCourse() {
+    this.joinCourses = [];
+    // this.createCourses = [];
+    this.getJoinCourses();
+    this.isJoin = true;
+  }
 
   async onPresentPopover(e) {
     const popover = await this.popoverCtrl.create({
@@ -133,9 +217,7 @@ export class HomePage implements OnInit {
     if (this.isJoin) {
       new Promise((resolve, reject) => {
         console.log('refreshData', 'join');
-        this.joinCourses = null;
-        this.createCourses = null;
-        this.getJoinCourses();
+        this.refreshJoinCourse();
         resolve('succeed');
         reject('failure');
       }).then(() => {
@@ -145,9 +227,8 @@ export class HomePage implements OnInit {
     else {
       new Promise((resolve, reject) => {
         console.log('refreshData', 'create');
-        this.joinCourses = null;
-        this.createCourses = null;
-        this.getCreateCourses();
+        // this.joinCourses = [];
+        this.refreshCreateCourse();
         resolve('succeed');
         reject('failure');
       }).then(() => {
@@ -155,74 +236,5 @@ export class HomePage implements OnInit {
       });
     }
   }
-
-  // async showMenu() {
-  //   const actionSheet = await this.actionSheetController.create({
-  //     mode: 'ios',
-  //     buttons: [{
-  //       text: '创建课程',
-  //       handler: () => {
-  //         //  console.log('创建课程');
-  //         this.permission = this.localStorageService.get('permission');
-  //         if (this.permission.permission === 1) {
-  //           this.router.navigateByUrl('/new-class');
-  //         }
-  //         else {// 学生无权限
-  //           this.varServiceService.presentAlert('学生没有创建权限');
-  //         }
-  //       }
-  //     }, {
-  //       text: '取消',
-  //       role: 'cancel',
-  //       handler: () => {
-  //         //  console.log('Cancel clicked');
-  //       }
-  //     },
-  //     {
-  //       text: '根据课程号查找课程',
-  //       handler: () => {
-  //         //  console.log('根据课程号查找课程');
-  //         //  this.identity = this.localStorageService.get('identity', null);
-  //         //  if (this.identity == 'teacher') {
-  //         //    this.presentAlert();
-  //         //  }
-  //         //  else {
-  //         //    this.presentSearchAlert();
-  //         //  }
-  //       }
-  //     }, {
-  //       text: '根据二维码查找课程',
-  //       handler: () => {
-  //         //  console.log('根据二维码查找课程');
-  //         //  if (this.identity == 'teacher') {
-  //         //    this.presentAlert();
-  //         //  }
-  //         //  else {
-  //         //    this.barcodeScanner.scan().then(barcodeData => {
-  //         //      //  alert("Barcode data " + JSON.stringify(barcodeData));
-  //         //      //  console.log("Barcode data " + JSON.stringify(barcodeData));
-  //         //      this.scannedData = barcodeData;
-  //         //      this.course_id = this.scannedData['text'];// 获取扫描到的课程号
-  //         //      //  console.log('扫描到的课程号为：', this.course_id);
-  //         //      this.router.navigate(['/stu-class-info'], {
-  //         //        queryParams: {
-  //         //          course_id: this.course_id
-  //         //        }
-  //         //      });
-  //         //    }).catch(err => {
-  //         //      //  console.log("Error", err);
-  //         //    });
-  //         //  }
-  //       }
-  //     }, {
-  //       text: '取消',
-  //       role: 'cancel',
-  //       handler: () => {
-  //         //  console.log('Cancel clicked');
-  //       }
-  //     }]
-  //   });
-  //   await actionSheet.present();
-  // }
 
 }
