@@ -11,11 +11,13 @@ export class CourseInfoPage implements OnInit {
 
   courseName = '';
   course: any;
+  isJoin = true;
   constructor(
     private varServiceService: VarServiceService,
     private networkService: NetworkService,
   ) {
     // this.courseName = varServiceService.getCourseName();
+    this.isJoin = VarServiceService.isJoin;
     this.course = VarServiceService.course;
     console.log('cs course');
     console.log(this.course);
@@ -31,7 +33,7 @@ export class CourseInfoPage implements OnInit {
     this.courseName = this.course.name;
   }
   delCourse() {
-    this.course.isFinish = true;
+    this.course.finish = true;
     this.networkService.updateCourse(this.course, this.varServiceService.getUser().token).then(async (result: any) => {
       if (result.code === 200) {
         this.varServiceService.presentToast('结束成功');
@@ -47,11 +49,11 @@ export class CourseInfoPage implements OnInit {
   }
   onJoinChange(event) {
     console.log(event.detail.checked);
-    this.course.isJoin = event.detail.checked;
+    this.course.join = event.detail.checked;
     console.log(this.course);
     this.networkService.updateCourse(this.course, this.varServiceService.getUser().token).then(async (result: any) => {
       if (result.code === 200) {
-        if (this.course.isJoin) {
+        if (this.course.join) {
           this.varServiceService.presentToast('允许加入');
         }
         else{

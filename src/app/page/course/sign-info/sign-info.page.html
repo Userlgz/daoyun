@@ -10,19 +10,19 @@
 <ion-content>
   <ion-list>
     <ion-item *ngFor="let item of signInfo" style="margin-top: 10px;">
-      <ion-label class="label1" [hidden]="item.status=='已签到'">
+      <ion-label class="label1" [hidden]="item.status=='未签到'">
         <h2>签到成功</h2>
         <p>{{item.signTime}}</p>
       </ion-label>
-      <ion-label class="label1" [hidden]="item.status=='未签到'">
+      <ion-label class="label1" [hidden]="item.status=='已签到'">
         <h2>签到失败</h2>
         <!-- <p>{{item.beginTime}}</p> -->
       </ion-label>
-      <ion-label slot="end" style="text-align: right" [hidden]="item.status=='已签到'">
+      <ion-label slot="end" style="text-align: right" [hidden]="item.status=='未签到'">
         <ion-icon name="add" color="success"></ion-icon>
         <ion-text color="success">{{item.parameter.experience}}</ion-text>
       </ion-label>
-      <ion-label slot="end" style="text-align: right" [hidden]="item.status=='未签到'">
+      <ion-label slot="end" style="text-align: right" [hidden]="item.status=='已签到'">
         <ion-icon name="remove" color="danger"></ion-icon>
         <ion-text color="danger">{{item.parameter.experience}}</ion-text>
       </ion-label>

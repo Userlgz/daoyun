@@ -54,5 +54,5 @@
 </ion-content>
 
 <ion-footer style="padding-bottom: 5%;">
-  <ion-button expand="full" color="primary" style="width: 90%; margin: auto" (click)="onSubmission()" disabled="{{!course.join}}">加入课程</ion-button>
+  <ion-button expand="full" color="primary" style="width: 90%; margin: auto" (click)="onSubmission()" disabled="{{!course.join||course.finish}}">加入课程</ion-button>
 </ion-footer>
