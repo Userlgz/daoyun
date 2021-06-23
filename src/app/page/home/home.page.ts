@@ -44,21 +44,21 @@ export class HomePage implements OnInit {
     console.log(testTime1, testTime2);
     console.log(testTime1.getTime(), testTime2.getTime());
     this.getJoinCourses();
-    this.courses = this.joinCourses;
+    // this.courses = this.joinCourses;
     if (this.varServiceService.getUser().permission > 1) {
       this.isStudent = false;
     }
   }
 
   ngOnInit() {
-    if (this.isJoin) {
-      this.refreshJoinCourse();
-      this.courses = this.joinCourses;
-    }
-    else {
-      this.refreshCreateCourse();
-      this.courses = this.createCourses;
-    }
+    // if (this.isJoin) {
+    //   this.refreshJoinCourse();
+    //   this.courses = this.joinCourses;
+    // }
+    // else {
+    //   this.refreshCreateCourse();
+    //   this.courses = this.createCourses;
+    // }
     // this.courses = this.joinCourses;
     // console.log('ngOnInit');
     // console.log(this.courses);
@@ -109,6 +109,7 @@ export class HomePage implements OnInit {
         }
         else {
           this.varServiceService.presentToast(result.msg);
+          this.router.navigateByUrl('passport/login');
         }
       }).catch((error) => {
         this.varServiceService.presentToast('网络出错');
