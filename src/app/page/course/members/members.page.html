@@ -8,19 +8,17 @@
 </ion-header>
 
 <ion-content>
-  <!-- <ion-refresher slot="fixed" (ionRefresh)="refreshData($event)">
-    <ion-refresher-content
-      pullingIcon="arrow-dropdown"
-      pullingText="下拉刷新"
-      refreshingSpinner="circles"
+  <ion-refresher slot="fixed" (ionRefresh)="refreshData($event)">
+    <ion-refresher-content pullingicon="arrow-down" pullingText="下拉刷新" refreshingSpinner="circles"
       refreshingText="加载中...">
     </ion-refresher-content>
-  </ion-refresher> -->
+  </ion-refresher>
   <ion-toolbar style="margin-top: 10px; margin-bottom: 10px;">
     <ion-buttons>
         <ion-tab-button (click)="onSign()">
             <img src="assets\icon\qd.png" style="width: 60%;"/>
-          <ion-label>发起签到</ion-label>
+          <ion-label *ngIf="!isJoin">发起签到</ion-label>
+          <ion-label *ngIf="isJoin">参与签到</ion-label>
         </ion-tab-button>
         <ion-tab-button (click)="onClick()">
             <img src="assets\icon\xy.png" style="width: 60%;"/>
@@ -30,7 +28,7 @@
             <img src="assets\icon\xz.png" style="width: 60%;"/>
           <ion-label>小组方案</ion-label>
         </ion-tab-button>
-        <ion-tab-button (click)="onClick()">
+        <ion-tab-button (click)="onClick()" *ngIf="!isJoin">
             <img src="assets\icon\jg.png" style="width: 60%;"/>
           <ion-label>挂科预警</ion-label>
         </ion-tab-button>

@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 // import { Component, OnInit } from '@angular/core';
 import PatternLock from 'patternlock';
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit } from '@angular/core';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @Component({
   selector: 'app-gesture',
@@ -35,12 +36,16 @@ export class GesturePage implements OnInit, OnChanges {
   longitude = 0;
   latitude = 0;
   join = false;
+  signTime = '';
+  signTextShow = true;
+  pText = '经纬度';
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private varServiceService: VarServiceService,
     private networkService: NetworkService,
     private router: Router,
+    private geolocation: Geolocation,
   ) {
     // this.canvas = document.getElementById('lockCanvass');
     // this.canvasWidth = document.body.offsetWidth;  //  网页可见区域宽
@@ -48,14 +53,30 @@ export class GesturePage implements OnInit, OnChanges {
     // this.currheight = this.getTop(this.canvas);
     // this.currheight = document.getElementById('lockCanvass').offsetTop;
     //
-    this.activatedRoute.queryParams.subscribe(
-      (queryParams) => {
-        this.longitude = queryParams.longitude;
-        this.latitude = queryParams.latitude;
-      }
-    );
+    this.join = VarServiceService.isJoin;
+    // this.activatedRoute.queryParams.subscribe(
+    //   (queryParams) => {
+    //     this.longitude = queryParams.longitude;
+    //     this.latitude = queryParams.latitude;
+    //   }
+    // );
+    this.getLocation();
   }
+  getLocation() {
 
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.pText = 'GPS定位：您的位置是 ' + resp.coords.longitude + ',' + resp.coords.latitude;
+      console.log('GPS定位：您的位置是 ' + resp.coords.longitude + ',' + resp.coords.latitude);
+      this.longitude = resp.coords.longitude;
+      this.latitude = resp.coords.latitude;
+
+    }).catch(e => {
+
+      console.log('Error happened when get current position.');
+
+    });
+
+  }
   ngOnChanges(changes: SimpleChanges): void {
     throw new Error('Method not implemented.');
   }
@@ -67,6 +88,7 @@ export class GesturePage implements OnInit, OnChanges {
     return offset;
   }
   ngOnInit() {
+    this.join = VarServiceService.isJoin;
     this.canvas = document.getElementById('lockCanvass');
     // this.currheight = this.getTop(this.canvas);
 
@@ -345,6 +367,9 @@ export class GesturePage implements OnInit, OnChanges {
         for (const i of pwdArr) {
           signThis.gesPass += String(i + 1);
         }
+        if (VarServiceService.isJoin) {
+          signThis.signIn();
+        }
       }
       else {
         // signThis.startDraw = false;
@@ -403,5 +428,53 @@ export class GesturePage implements OnInit, OnChanges {
       }
     }
   }
+  signIn() {
+    this.networkService.searchSigning(VarServiceService.courseID, this.varServiceService.getUser().token).then(async (result: any) => {
+      if (result.code === 200) {
+        const signList = result.data;
+        if (signList.length === 0) {
+          this.varServiceService.presentToast('还没有开始签到!');
+          return;
+        }
+        const sign = {
+          signId: signList[0].id,
+          userId: this.varServiceService.getUser().id,
+          longitude: this.longitude,
+          latitude: this.latitude,
+          passport: this.gesPass,
+        };
+        const end = new Date(signList[0].endTime.replace(/-/g, '/')); // 结束时间
+        const curr = new Date().getTime();
+        const diff = end.getTime() - curr;
+        console.log('onSignIn diff', diff);
+        if (diff < 0) {
+          this.varServiceService.presentToast('签到已结束!');
+          this.router.navigateByUrl('tabs');
+          return;
+        }
+        this.networkService.joinSign(sign, this.varServiceService.getUser().token).then(async (joinSign: any) => {
+          if (joinSign.code === 200) {
+            // this.varServiceService.presentAlert('签到成功');
+            this.signTextShow = !this.signTextShow;
+            const cur = new Date(+new Date() + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ')
+              .replace(/\.[\d]{3}Z/, '').replace(/-/g, '/');
+            this.signTime = cur.toString();
+            console.log(joinSign);
+          }
+          else {
+            this.varServiceService.presentToast(joinSign.code + joinSign.msg);
+          }
+        }).catch((joinSignerror) => {
+          this.varServiceService.presentToast('网络出错');
+          console.log(joinSignerror);
+        });
+      }
+      else {
+        this.varServiceService.presentToast(result.code + result.msg);
+      }
+    }).catch((error) => {
+      this.varServiceService.presentToast('网络出错');
+    });
 
+  }
 }

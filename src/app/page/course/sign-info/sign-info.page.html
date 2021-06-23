@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button text="返回" icon="chevron-back-outline"></ion-back-button>
+      <ion-back-button defaultHref="/tabs/home" text="返回" icon="chevron-back-outline"></ion-back-button>
     </ion-buttons>
     <ion-title>经验值详情</ion-title>
   </ion-toolbar>
@@ -10,21 +10,21 @@
 <ion-content>
   <ion-list>
     <ion-item *ngFor="let item of signInfo" style="margin-top: 10px;">
-      <ion-label class="label1" [hidden]="!item.status">
+      <ion-label class="label1" [hidden]="item.status=='已签到'">
         <h2>签到成功</h2>
-        <p>{{item.beginTime}}</p>
+        <p>{{item.signTime}}</p>
       </ion-label>
-      <ion-label class="label1" [hidden]="item.status">
+      <ion-label class="label1" [hidden]="item.status=='未签到'">
         <h2>签到失败</h2>
-        <p>{{item.beginTime}}</p>
+        <!-- <p>{{item.beginTime}}</p> -->
       </ion-label>
-      <ion-label slot="end" style="text-align: right" [hidden]="!item.status">
+      <ion-label slot="end" style="text-align: right" [hidden]="item.status=='已签到'">
         <ion-icon name="add" color="success"></ion-icon>
-        <ion-text color="success">{{item.experience}}</ion-text>
+        <ion-text color="success">{{item.parameter.experience}}</ion-text>
       </ion-label>
-      <ion-label slot="end" style="text-align: right" [hidden]="item.status">
+      <ion-label slot="end" style="text-align: right" [hidden]="item.status=='未签到'">
         <ion-icon name="remove" color="danger"></ion-icon>
-        <ion-text color="danger">{{item.experience}}</ion-text>
+        <ion-text color="danger">{{item.parameter.experience}}</ion-text>
       </ion-label>
     </ion-item>
   </ion-list>

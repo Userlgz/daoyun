@@ -10,6 +10,7 @@ import { AlertController, ToastController } from '@ionic/angular';
 })
 export class VarServiceService {
 
+  // ionic cordova build android
 
   static courseName = '';
   static courseID = '';
@@ -17,6 +18,7 @@ export class VarServiceService {
   static course: any;
 
   static startSign = false;
+  static isJoin = true;
 
   private user: User = null;
   private permission: Permission = null;

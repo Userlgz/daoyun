@@ -21,6 +21,8 @@ export class JoinCoursePage implements OnInit {
     college: null,
     classNumber: null,
     teachArrange: null,
+    join: true,
+    finish: false
   };
 
   constructor(
@@ -58,21 +60,20 @@ export class JoinCoursePage implements OnInit {
     });
   }
 
-  onSubmission(){
+  onSubmission() {
     this.networkService.joinCourse(this.varServiceService.getUser().id,
-        this.courseNumber, this.varServiceService.getUser().token).then(async (result: any) => {
-
-      console.log(result);
-      if (result.code === 200) {
-        // this.course = result.data;
-        this.varServiceService.presentToast('加入课程成功');
-        this.router.navigateByUrl('tabs/home');
-      }
-      else {
-        this.varServiceService.presentAlert(result.msg);
-      }
-    }).catch((error) => {
-      this.varServiceService.presentToast('网络出错');
-    });
+      this.courseNumber, this.varServiceService.getUser().token).then(async (result: any) => {
+        console.log(result);
+        if (result.code === 200) {
+          // this.course = result.data;
+          this.varServiceService.presentToast('加入课程成功');
+          this.router.navigateByUrl('tabs/home');
+        }
+        else {
+          this.varServiceService.presentAlert(result.msg);
+        }
+      }).catch((error) => {
+        this.varServiceService.presentToast('网络出错');
+      });
   }
 }

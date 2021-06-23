@@ -42,22 +42,22 @@ export class PopoverPage implements OnInit {
   searchCourseByNumber() {
     // console.log('searchCourseByNumber');
     // this.presentAlertPrompt();
-    if (this.courseNumber % 10000000 === 19) {
-      this.varServiceService.presentAlert('已加入该班课');
-    }
-    else if (this.courseNumber % 10000000 > 100) {
-      this.varServiceService.presentAlert('班课不存在');
-    }
-    else if (this.courseNumber % 10000000 === 18) {
-      this.varServiceService.presentAlert('班课不允许加入');
-    }
-    else if (this.courseNumber % 10000000 === 17) {
-      this.varServiceService.presentAlert('班课已结束');
-    }
-    else {
+    // if (this.courseNumber % 10000000 === 19) {
+    //   this.varServiceService.presentAlert('已加入该班课');
+    // }
+    // else if (this.courseNumber % 10000000 > 100) {
+    //   this.varServiceService.presentAlert('班课不存在');
+    // }
+    // else if (this.courseNumber % 10000000 === 18) {
+    //   this.varServiceService.presentAlert('班课不允许加入');
+    // }
+    // else if (this.courseNumber % 10000000 === 17) {
+    //   this.varServiceService.presentAlert('班课已结束');
+    // }
+    // else {
 
-      this.router.navigate(['/course/join-course'], { queryParams: { courseNumber: this.courseNumber } });
-    }
+    this.router.navigate(['/course/join-course'], { queryParams: { courseNumber: this.courseNumber } });
+    // }
     this.popoverCtrl.dismiss();
   }
   searchCourseByBarcode() {

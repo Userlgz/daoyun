@@ -48,6 +48,7 @@ export class SignPage implements OnInit {
     ['分钟']
   ];
   minutes = 0;
+  isJoin = true;
   // "id": 1,
   // "beginTime": "2021-04-08 16:29:17",
   // "endTime": "2021-04-10 22:09:50",
@@ -71,11 +72,19 @@ export class SignPage implements OnInit {
     private router: Router,
     public pickerService: PickerService,
   ) {
+    this.isJoin = VarServiceService.isJoin;
+    this.getLocation();
+    this.getSign();
   }
   ngOnInit() {
+    this.isJoin = VarServiceService.isJoin;
     // for (let i = 1; i < 60; i++) {
     //   this.termOptions[0].push(i);
     // }
+    if (VarServiceService.startSign) {
+      this.varServiceService.presentAlert('您还有未结束的签到');
+      this.router.navigateByUrl('sign/signing');
+    }
     this.getLocation();
     this.getSign();
   }
@@ -162,8 +171,8 @@ export class SignPage implements OnInit {
   }
   onGesture() {
     // 2
-    this.router.navigate(['sign/gesture'], { queryParams: { longitude: this.longitude, latitude: this.latitude } });
-    // this.router.navigateByUrl('sign/gesture');
+    // this.router.navigate(['sign/gesture'], { queryParams: { longitude: this.longitude, latitude: this.latitude } });
+    this.router.navigateByUrl('sign/gesture');
   }
   onManual() {
 

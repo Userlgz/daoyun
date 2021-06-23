@@ -37,6 +37,18 @@ export class NetworkService {
       });
     });
   }
+  put(url: string, param: any = null, header: any = null) {
+    const puturl = this.rooturl + url;
+    // console.log(param);
+    // console.log(header);
+    return new Promise((reslove, reject) => {
+      this.http.put(puturl, {}, { headers: header, params: param }).subscribe((response) => {
+        reslove(response);
+      }, (error) => {
+        reject(error);
+      });
+    });
+  }
   login(userphone: string, userpassword: string) {
     const param = {
       phone: userphone,
@@ -122,6 +134,12 @@ export class NetworkService {
       courseNumber: searchCourseNumber,
     };
     return this.post('/course/join', param, header);
+  }
+  updateCourse(course, usertoken){
+    const header = {
+      token: usertoken,
+    };
+    return this.put('/course', course, header);
   }
   getverifyCode(userphone: string, codetype: string) {
     const param = {
@@ -222,6 +240,16 @@ export class NetworkService {
       token: usertoken,
     };
     return this.post('/sign/join', sign, header);
+  }
+  makeSign(sid, uid, usertoken) {
+    const header = {
+      token: usertoken,
+    };
+    const param = {
+      signId: sid,
+      userId: uid
+    };
+    return this.post('/sign/join/again', param, header);
   }
   endSign(sid, usertoken) {
     const header = {

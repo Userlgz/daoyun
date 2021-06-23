@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button text="返回" icon="chevron-back-outline"></ion-back-button>
+      <ion-back-button defaultHref="/tabs/home" text="返回" icon="chevron-back-outline"></ion-back-button>
     </ion-buttons>
     <ion-title>加入课程</ion-title>
   </ion-toolbar>
@@ -54,5 +54,5 @@
 </ion-content>
 
 <ion-footer style="padding-bottom: 5%;">
-  <ion-button expand="full" color="primary" style="width: 90%; margin: auto" (click)="onSubmission()">加入课程</ion-button>
+  <ion-button expand="full" color="primary" style="width: 90%; margin: auto" (click)="onSubmission()" disabled="{{!course.join}}">加入课程</ion-button>
 </ion-footer>

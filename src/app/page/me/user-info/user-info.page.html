@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button text="返回" icon="chevron-back-outline"></ion-back-button>
+      <ion-back-button defaultHref="/tabs/home" text="返回" icon="chevron-back-outline"></ion-back-button>
     </ion-buttons>
     <ion-title>个人信息</ion-title>
     <ion-buttons slot="end">
@@ -13,7 +13,7 @@
 
 <ion-content>
   <div *ngIf="!isEdit">
-    <ion-list inset="true" style="margin: 2% 3% 2% 3%;">
+    <ion-list style="margin: 2% 3% 2% 3%;">
       <ion-item>
         <ion-label>姓名</ion-label>
         <ion-note slot="end" class="font-size">{{user.name}}</ion-note>
@@ -50,7 +50,7 @@
   </div>
 
   <div *ngIf="isEdit">
-    <ion-list inset="true" style="margin: 2% 3% 2% 3%;">
+    <ion-list style="margin: 2% 3% 2% 3%;">
       <ion-item>
         <ion-label position="fixed" class="label-padding">姓名</ion-label>
         <ion-input type="text" [(ngModel)]="user.name" placeholder="{{user.name}}"></ion-input>
@@ -74,8 +74,9 @@
     <!-- </ion-list>
     <ion-list inset="true" *ngIf="isStudent"> -->
       <ion-item detail [routerLink]="['/organization']" [queryParams]="{'fromUrl': '/me/user-info'}">
-        <ion-label>组织&nbsp;<ion-text color="danger">*</ion-text></ion-label>
-        <ion-note class="smallnote" >{{user.school}} {{user.college}}</ion-note>
+        <!-- <ion-label>组织&nbsp;<ion-text color="danger">*</ion-text></ion-label> -->
+        <ion-label>组织</ion-label>
+        <ion-note slot="end">{{user.school}} {{user.college}}</ion-note>
       </ion-item>
       <!-- <ion-item>
         <ion-label>学校&nbsp;<ion-text color="danger">*</ion-text></ion-label>

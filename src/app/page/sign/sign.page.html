@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button text="返回" icon="chevron-back-outline"></ion-back-button>
+      <ion-back-button defaultHref="/tabs/home" text="返回" icon="chevron-back-outline"></ion-back-button>
     </ion-buttons>
     <ion-title>签到</ion-title>
   </ion-toolbar>
@@ -20,32 +20,32 @@
     <!-- <ion-buttons> -->
     <ion-grid style="text-align: center;">
       <ion-row class="row">
-        <ion-col size="3">
+        <ion-col>
           <ion-icon src="assets/icon/hand-right-outline.svg" (click)="onOneClick()"></ion-icon>
         </ion-col>
-        <ion-col size="3">
+        <ion-col>
           <ion-icon src="assets/icon/alarm-outline.svg" (click)="onLimitTime()"></ion-icon>
         </ion-col>
-        <ion-col size="3">
+        <ion-col>
           <ion-icon src="assets/icon/apps-outline.svg" (click)="onGesture()"></ion-icon>
         </ion-col>
-        <ion-col size="3">
+        <!-- <ion-col>
           <ion-icon src="assets/icon/reader-outline.svg" (click)="onManual()"></ion-icon>
-        </ion-col>
+        </ion-col> -->
       </ion-row>
       <ion-row>
-        <ion-col size="3" (click)="onOneClick()">
+        <ion-col (click)="onOneClick()">
           一键签到
         </ion-col>
-        <ion-col size="3" (click)="onLimitTime()">
+        <ion-col (click)="onLimitTime()">
           限时签到
         </ion-col>
-        <ion-col size="3" (click)="onGesture()">
+        <ion-col (click)="onGesture()">
           手势签到
         </ion-col>
-        <ion-col size="3" (click)="onManual()">
+        <!-- <ion-col(click)="onManual()">
           手动签到
-        </ion-col>
+        </ion-col> -->
       </ion-row>
     </ion-grid>
     <!-- <ion-item-divider style="margin-top: 2px; margin-bottom: 2px;" color="light"></ion-item-divider> -->

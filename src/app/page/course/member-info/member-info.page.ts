@@ -45,7 +45,7 @@ export class MemberInfoPage implements OnInit {
   ngOnInit() {
   }
   onSignInfo() {
-    this.router.navigate(['course/sign-info'], { queryParams: { userId: this.member.userId } });
+    this.router.navigate(['course/sign-info'], { queryParams: { userId: this.member.id } });
   }
 
 }

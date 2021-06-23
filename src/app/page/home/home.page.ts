@@ -39,6 +39,10 @@ export class HomePage implements OnInit {
     private localStorageService: LocalStorageService,
     public popoverCtrl: PopoverController
   ) {
+    const testTime1 = new Date('2021-06-21 20:33:46.200');
+    const testTime2 = new Date('2021-06-21 20:33:46.500');
+    console.log(testTime1, testTime2);
+    console.log(testTime1.getTime(), testTime2.getTime());
     this.getJoinCourses();
     this.courses = this.joinCourses;
     if (this.varServiceService.getUser().permission > 1) {
@@ -67,11 +71,13 @@ export class HomePage implements OnInit {
       this.getJoinCourses();
       // console.log(this.joinCourses, this.courses);
       this.isJoin = true;
+      VarServiceService.isJoin = true;
     }
     else {
       this.getCreateCourses();
       // console.log(this.createCourses, this.courses);
       this.isJoin = false;
+      VarServiceService.isJoin = false;
     }
     //  }
   }
@@ -122,9 +128,10 @@ export class HomePage implements OnInit {
           //  this.presentAlert(result.msg);
           //  this.router.navigateByUrl('passport/login');
           this.createCourses = result.data;
+          // this.createCourses.sort(this.sortCourse);
           this.courses = this.createCourses;
           this.createCoursestotal = this.joinCourses.length;
-          // console.log(result);
+          console.log(this.createCourses);
           // this.varServiceService.presentToast('加载成功');
         }
         else {
@@ -140,7 +147,9 @@ export class HomePage implements OnInit {
       this.courses = this.createCourses;
     }
   }
-
+  sortCourse(b, a) {
+    return a.courseNumber.valueOf() - b.courseNumber.valueOf();
+  }
   onSign(course) {
     let runSign = [];
     console.log('onSign');
@@ -169,7 +178,12 @@ export class HomePage implements OnInit {
             this.varServiceService.setCourseName(course.name);
             this.varServiceService.setCourseID(course.id);
             VarServiceService.course = course;
-            this.router.navigateByUrl('sign/sign-in');
+            if (runSign[0].parameter.name === '手势签到') {
+              this.router.navigateByUrl('sign/gesture');
+            }
+            else {
+              this.router.navigateByUrl('sign/sign-in');
+            }
             // console.log(courseId);
             // this.varServiceService.setCourseName(courseId);
             // this.varServiceService.setCourseID(courseId);
@@ -195,12 +209,14 @@ export class HomePage implements OnInit {
     this.getCreateCourses();
     // console.log(this.createCourses, this.courses);
     this.isJoin = false;
+    VarServiceService.isJoin = false;
   }
   refreshJoinCourse() {
     this.joinCourses = [];
     // this.createCourses = [];
     this.getJoinCourses();
     this.isJoin = true;
+    VarServiceService.isJoin = true;
   }
 
   async onPresentPopover(e) {

@@ -40,6 +40,8 @@ export class SignRecordPage implements OnInit {
       if (stu.code === 200) {
         this.sign = stu.data;
         console.log(this.sign);
+        this.signed = [];
+        this.noSign = [];
         for (const s of this.sign) {
           if (s.status === '已签到') {
             this.signed.push(s);
@@ -65,5 +67,21 @@ export class SignRecordPage implements OnInit {
   }
   changeSignedShow() {
     this.signedShow = !this.signedShow;
+  }
+  onManual(item) {
+    console.log('补签');
+    this.networkService.makeSign(this.signId, item.id, this.varServiceService.getUser().token).then(async (result: any) => {
+      if (result.code === 200) {
+        this.varServiceService.presentToast(item.name + ' 补签成功');
+        this.getSignStu(this.signId);
+      }
+      else {
+        this.varServiceService.presentToast(result.code + result.msg);
+      }
+    }).catch((error) => {
+      this.varServiceService.presentToast('网络出错');
+      console.log(error);
+      return;
+    });
   }
 }

@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button text="返回" icon="chevron-back-outline"></ion-back-button>
+      <ion-back-button defaultHref="/tabs/home" text="返回" icon="chevron-back-outline"></ion-back-button>
     </ion-buttons>
     <ion-title>签到记录</ion-title>
   </ion-toolbar>
@@ -22,6 +22,7 @@
           <p>{{item.userId}}</p>
           <!-- <p>签到&nbsp;{{item.ok}}&nbsp;&nbsp;迟到&nbsp;{{item.later}}&nbsp;&nbsp;缺勤&nbsp;{{item.no}}</p> -->
         </ion-label>
+        <ion-label slot="end" (click)="onManual(item)" style="text-align: right; color: crimson;">补签</ion-label>
       </ion-item>
     </ion-item-group>
   </ion-list>

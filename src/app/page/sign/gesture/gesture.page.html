@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button text="返回" icon="chevron-back-outline"></ion-back-button>
+      <ion-back-button defaultHref="/tabs/home" text="返回" icon="chevron-back-outline"></ion-back-button>
     </ion-buttons>
     <ion-title>手势签到</ion-title>
   </ion-toolbar>
@@ -9,13 +9,20 @@
 
 <ion-content>
   <!-- <ion-progress-bar type="indeterminate" color="light" *ngIf="hasPost"></ion-progress-bar> -->
+  <ion-card style="top: 30vh;" [hidden]="signTextShow">
+    <ion-card-content>
+      <ion-item lines='none' style="color: limegreen;">
+        <p>签到时间: {{signTime}}</p>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
 
-    <ion-text style="text-align: center;">
+    <ion-text style="text-align: center;" [hidden]="!signTextShow">
       <h4 style="width: 80%; margin: 5% auto 0 auto; padding-top: 10%;">绘制手势(4个点以上)</h4>
     </ion-text>
 
   <!-- <app-gesture></app-gesture> -->
-  <canvas id="lockCanvass" (click)="onClick($event)"></canvas>
+  <canvas id="lockCanvass" (click)="onClick($event)" [hidden]="!signTextShow"></canvas>
 </ion-content>
 <ion-footer *ngIf="!join" style="padding-bottom: 5%; height:10%; ">
   <ion-buttons style="width: 100%; height:100%; margin: auto; place-content: center;" expand="full">
