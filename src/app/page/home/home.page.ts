@@ -39,10 +39,6 @@ export class HomePage implements OnInit {
     private localStorageService: LocalStorageService,
     public popoverCtrl: PopoverController
   ) {
-    const testTime1 = new Date('2021-06-21 20:33:46.200');
-    const testTime2 = new Date('2021-06-21 20:33:46.500');
-    console.log(testTime1, testTime2);
-    console.log(testTime1.getTime(), testTime2.getTime());
     this.getJoinCourses();
     // this.courses = this.joinCourses;
     if (this.varServiceService.getUser().permission > 1) {
@@ -51,6 +47,11 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
+    this.getJoinCourses();
+    // this.courses = this.joinCourses;
+    if (this.varServiceService.getUser().permission > 1) {
+      this.isStudent = false;
+    }
     // if (this.isJoin) {
     //   this.refreshJoinCourse();
     //   this.courses = this.joinCourses;

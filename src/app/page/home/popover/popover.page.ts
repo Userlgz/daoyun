@@ -35,9 +35,15 @@ export class PopoverPage implements OnInit {
   ngOnInit() {
   }
   async creatCourse() {
-    console.log('creatCourse');
-    this.router.navigateByUrl('/course/create-course');
-    this.popoverCtrl.dismiss();
+    if (this.varServiceService.getUser().permission > 1) {
+      console.log('creatCourse');
+      this.router.navigateByUrl('/course/create-course');
+      this.popoverCtrl.dismiss();
+    }
+    else {
+      this.varServiceService.presentToast('权限不够!');
+    }
+
   }
   searchCourseByNumber() {
     // console.log('searchCourseByNumber');
