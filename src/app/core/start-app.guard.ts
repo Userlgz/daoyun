@@ -37,7 +37,7 @@ export class StartAppGuard implements CanActivate {
       if (differ - 5 > 0) {
         this.router.navigateByUrl('passport/login');
       } else {
-        this.router.navigateByUrl('tabs');
+        this.router.navigateByUrl('tabs/home');
       }
       return false;
     }

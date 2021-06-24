@@ -50,7 +50,6 @@ export class JoinCoursePage implements OnInit {
       console.log(result);
       if (result.code === 200) {
         this.course = result.data;
-
       }
       else {
         this.varServiceService.presentAlert(result.msg);

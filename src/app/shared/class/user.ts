@@ -13,4 +13,5 @@ export class User {
     userId: string;
     createTime: string;
     token: string;
+    roleName: string;
 }

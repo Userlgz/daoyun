@@ -76,9 +76,9 @@ export class LoginPage implements OnInit {
             }
 
             this.loginResult.then(async (result: any) => {
-                console.log(result);
+                // console.log(result);
                 this.code = result.code;
-                console.log(this.code);
+                // console.log(this.code);
                 if (this.code === 200) {
                     const loginTime = new Date(+new Date() + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '');
                     this.localStorageService.set('loginTime', loginTime);
@@ -91,7 +91,9 @@ export class LoginPage implements OnInit {
                     this.permission = result.data.permission;
                     this.localStorageService.set('Permission', this.permission);
                     console.log('login');
-                    console.log(this.user);
+                    // console.log(this.user);
+                    this.router.initialNavigation();
+                    
                     this.router.navigateByUrl('tabs');
                 }
                 else {

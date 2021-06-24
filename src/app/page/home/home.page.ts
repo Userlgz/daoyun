@@ -37,8 +37,9 @@ export class HomePage implements OnInit {
     private networkService: NetworkService,
     private actionSheetController: ActionSheetController,
     private localStorageService: LocalStorageService,
-    public popoverCtrl: PopoverController
+    public popoverCtrl: PopoverController,
   ) {
+    console.log('home');
     this.getJoinCourses();
     // this.courses = this.joinCourses;
     if (this.varServiceService.getUser().permission > 1) {
@@ -47,22 +48,30 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    this.getJoinCourses();
-    // this.courses = this.joinCourses;
-    if (this.varServiceService.getUser().permission > 1) {
-      this.isStudent = false;
+    if (this.isJoin) {
+      this.refreshJoinCourse();
+      this.courses = this.joinCourses;
     }
-    // if (this.isJoin) {
-    //   this.refreshJoinCourse();
-    //   this.courses = this.joinCourses;
-    // }
-    // else {
-    //   this.refreshCreateCourse();
-    //   this.courses = this.createCourses;
-    // }
+    else {
+      this.refreshCreateCourse();
+      this.courses = this.createCourses;
+    }
     // this.courses = this.joinCourses;
-    // console.log('ngOnInit');
+    console.log('ngOnInit');
     // console.log(this.courses);
+  }
+
+  ionViewWillEnter() {
+    if (this.isJoin) {
+      this.refreshJoinCourse();
+      this.courses = this.joinCourses;
+    }
+    else {
+      this.refreshCreateCourse();
+      this.courses = this.createCourses;
+    }
+    // this.courses = this.joinCourses;
+    console.log('ionViewWillEnter');
   }
 
   onSegChange(event) {
@@ -98,7 +107,7 @@ export class HomePage implements OnInit {
   getJoinCourses() {
     console.log('getJoinCourses');
     if (this.joinCourses.length === 0) {
-      this.networkService.getJoinCourses(this.varServiceService.getUser().token).then(async (result: any) => {
+      this.networkService.getJoinCourses(this.varServiceService.getUser().token).then((result: any) => {
         if (result.code === 200) {
           //  this.presentAlert(result.msg);
           //  this.router.navigateByUrl('passport/login');
@@ -111,6 +120,7 @@ export class HomePage implements OnInit {
         else {
           this.varServiceService.presentToast(result.msg);
           this.router.navigateByUrl('passport/login');
+
         }
       }).catch((error) => {
         this.varServiceService.presentToast('网络出错');
@@ -124,8 +134,8 @@ export class HomePage implements OnInit {
   getCreateCourses() {
     console.log('getCreateCourses');
     if (this.createCourses.length === 0) {
-      console.log('getCreateCourses');
-      this.networkService.getCreateCourses(this.varServiceService.getUser().token).then(async (result: any) => {
+      // console.log('getCreateCourses');
+      this.networkService.getCreateCourses(this.varServiceService.getUser().token).then((result: any) => {
         if (result.code === 200) {
           //  this.presentAlert(result.msg);
           //  this.router.navigateByUrl('passport/login');
@@ -133,11 +143,12 @@ export class HomePage implements OnInit {
           // this.createCourses.sort(this.sortCourse);
           this.courses = this.createCourses;
           this.createCoursestotal = this.joinCourses.length;
-          console.log(this.createCourses);
+          // console.log(this.createCourses);
           // this.varServiceService.presentToast('加载成功');
         }
         else {
           this.varServiceService.presentToast(result.msg);
+          this.router.navigateByUrl('passport/login');
           // this.presentAlert(result.msg);
           // console.log(result);
         }

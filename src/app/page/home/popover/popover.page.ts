@@ -33,9 +33,10 @@ export class PopoverPage implements OnInit {
   ) {
   }
   ngOnInit() {
+    // this.router.dispose()
   }
   async creatCourse() {
-    if (this.varServiceService.getUser().permission > 1) {
+    if (this.varServiceService.getUser().roleName !== '学生') {
       console.log('creatCourse');
       this.router.navigateByUrl('/course/create-course');
       this.popoverCtrl.dismiss();

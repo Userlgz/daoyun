@@ -73,8 +73,8 @@ export class CreateCoursePage implements OnInit {
     }
     selectIdx.push(year - 2020 - mouth);
     selectIdx.push(mouth);
-    console.log(selectIdx);
-    this.pickerService.openPicker($start, $length, $option, [1, 0], (result) => {
+    // console.log(selectIdx);
+    this.pickerService.openPicker($start, $length, $option, selectIdx, (result) => {
       const vals = JSON.parse(result)['col-0'].text + '-' + JSON.parse(result)['col-1'].text;
       // that.termText = vals;
       that.course.term = vals;
